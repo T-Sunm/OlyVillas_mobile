@@ -11,8 +11,6 @@ const Listings = () => {
 
     const navigation = useNavigation()
 
-
-
     const renderRow = ({ item }) => {
         return (
             <TouchableOpacity onPress={() => navigation.navigate('listingdetails', { listing: item })}>
