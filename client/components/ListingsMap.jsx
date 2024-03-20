@@ -1,65 +1,56 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, {useState, useRef} from 'react'
 import { Marker, PROVIDER_GOOGLE } from 'react-native-maps'
 import { COLORS, FONTFAMILY, defaultStyles } from '../theme/theme'
 import { useNavigation } from '@react-navigation/native'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { GOOGLE_API_KEY } from '../environment'
 import MapView from "react-native-map-clustering";
+import MapSearchInput from './Input/MapSearchInput'
 const ListingsMap = ({ items }) => {
     const navigation = useNavigation()
+    const [location, setLocation] = useState(null)
+    const mapRef = useRef(null)
+
+    const zoomToLocation = (coord) => {
+        if (mapRef.current) {
+            mapRef.current.animateToRegion({
+                latitude: coord.lat,
+                longitude: coord.lng,
+                latitudeDelta: 0.05,
+                longitudeDelta: 0.05,
+            });
+        }
+    };
+
+    function selectLocation(loca){
+        setLocation(loca)
+        zoomToLocation(loca.coord)
+    }
+
     const INITIAL_REGION = {
         latitude: 16.0544,
         longitude: 108.2022,
         latitudeDelta: 0.1, // Giá trị này có thể điều chỉnh tùy theo độ phóng đại bạn muốn
         longitudeDelta: 0.1, // Tương tự như latitudeDelta
     };
-    const onMarkerSelected = (item) => {
-        navigation.navigate('listingdetails', { listing: item })
-    }
+    
 
 
     return (
         <View style={defaultStyles.container}>
             <MapView
+            ref={mapRef}
                 style={styles.container}
                 showsUserLocation={true}
                 showsMyLocationButton={true}
                 initialRegion={INITIAL_REGION}
                 provider={PROVIDER_GOOGLE}
             >
-                {items?.map((item) => {
-                    console.log(item?.id)
-                    return <Marker
-                        key={item?._id}
-                        coordinate={{
-                            latitude: +item?.locationData.lat,
-                            longitude: +item?.locationData.lng
-                        }}
-                        onPress={() => onMarkerSelected(item)}
-                    >
-                        <View style={styles.marker}>
-                            <Text style={styles.markerText}>
-                                ${item?.price}
-                            </Text>
-                        </View>
-                    </Marker>
-                })}
+               {location && <Marker coordinate={{latitude: location.coord.lat, longitude: location.coord.lng}} title={location.address} />}
             </MapView>
-            <View style={styles.searchContainer}>
-                <GooglePlacesAutocomplete
-                    styles={{ textInput: styles.input }}
-                    placeholder='Search'
-                    onPress={(data, details = null) => {
-                        // 'details' is provided when fetchDetails = true
-                        console.log(data, details);
-                    }}
-                    query={{
-                        key: GOOGLE_API_KEY,
-                        language: 'en',
-                    }}
-                />
-            </View>
+            {/* search */}
+            <MapSearchInput styles={styles} onSetLocation={selectLocation}/>
         </View>
     )
 }
@@ -91,7 +82,8 @@ const styles = StyleSheet.create({
     },
     input: {
         borderColor: "#888",
-        borderWidth: 1
+        borderWidth: 1,
+        padding: 8,
     },
     marker: {
         backgroundColor: COLORS.White,
