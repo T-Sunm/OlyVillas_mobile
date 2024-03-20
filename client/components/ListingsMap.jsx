@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React, {useState, useRef} from 'react'
+import React, { useState, useRef } from 'react'
 import { Marker, PROVIDER_GOOGLE } from 'react-native-maps'
 import { COLORS, FONTFAMILY, defaultStyles } from '../theme/theme'
 import { useNavigation } from '@react-navigation/native'
@@ -23,7 +23,7 @@ const ListingsMap = ({ items }) => {
         }
     };
 
-    function selectLocation(loca){
+    function selectLocation(loca) {
         setLocation(loca)
         zoomToLocation(loca.coord)
     }
@@ -34,23 +34,40 @@ const ListingsMap = ({ items }) => {
         latitudeDelta: 0.1, // Giá trị này có thể điều chỉnh tùy theo độ phóng đại bạn muốn
         longitudeDelta: 0.1, // Tương tự như latitudeDelta
     };
-    
+
 
 
     return (
         <View style={defaultStyles.container}>
             <MapView
-            ref={mapRef}
+                ref={mapRef}
                 style={styles.container}
                 showsUserLocation={true}
                 showsMyLocationButton={true}
                 initialRegion={INITIAL_REGION}
                 provider={PROVIDER_GOOGLE}
             >
-               {location && <Marker coordinate={{latitude: location.coord.lat, longitude: location.coord.lng}} title={location.address} />}
+                {location && <Marker coordinate={{ latitude: location.coord.lat, longitude: location.coord.lng }} title={location.address} />}
+                {items?.map((item) => {
+                    console.log(item?.id)
+                    return <Marker
+                        key={item?._id}
+                        coordinate={{
+                            latitude: +item?.locationData.lat,
+                            longitude: +item?.locationData.lng
+                        }}
+                        onPress={() => onMarkerSelected(item)}
+                    >
+                        <View style={styles.marker}>
+                            <Text style={styles.markerText}>
+                                ${item?.price}
+                            </Text>
+                        </View>
+                    </Marker>
+                })}
             </MapView>
             {/* search */}
-            <MapSearchInput styles={styles} onSetLocation={selectLocation}/>
+            <MapSearchInput styles={styles} onSetLocation={selectLocation} />
         </View>
     )
 }
