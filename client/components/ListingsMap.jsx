@@ -113,5 +113,5 @@ const styles = StyleSheet.create({
     markerText: {
         fontSize: 14,
         fontFamily: FONTFAMILY.poppins_semibold
-    }
+    },
 });

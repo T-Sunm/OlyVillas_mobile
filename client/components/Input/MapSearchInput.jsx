@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react'
 import { View, TextInput, Pressable, Text } from 'react-native'
 import axios from 'axios'
 import { MAP_KEY } from '../../environment';
+import { FONTFAMILY, COLORS } from '../../theme/theme';
 
 function MapSearchInput({styles, onSetLocation}) {
 
@@ -34,7 +35,14 @@ async function getLocationDetail(id){
         <TextInput style={styles.input} placeholder="Search for location" onChangeText={text => setSearchTerm(text)}/>
 
         {searchResults.length > 0 && searchResults.map((result, index) => (
-            <Pressable key={index} style={styles.searchResult} onPress={async () => {
+            <Pressable key={index} 
+            style={{
+              padding: 4,
+              borderBottomWidth: searchResults.lastIndexOf(result) === searchResults.length - 1 ? 0 : 1,
+              borderBottomColor: COLORS.Grey,
+              backgroundColor: COLORS.White,
+            }} 
+            onPress={async () => {
                 setSearchTerm('')
                 setSearchResults([])
                 const placeResult = await getLocationDetail(result.place_id)
@@ -47,7 +55,10 @@ async function getLocationDetail(id){
                 })
             }}>
                 <View>
-                    <Text>{result.description}</Text>
+                    <Text style={{
+                      fontFamily: FONTFAMILY.poppins_medium,
+                      fontSize: 12
+                    }}>{result.description}</Text>
                 </View>
             </Pressable>
         ))}
