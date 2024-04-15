@@ -34,7 +34,9 @@ const TabNavigators = () => {
                 component={ExploreScreens}
                 options={{
                     tabBarLabel: 'Explore',
-                    tabBarIcon: ({ color, size }) => <Ionicons name="search" size={size} color={color} />
+                    tabBarIcon: ({ color, size }) => <Ionicons name="search" size={size} color={color}
+                    />
+
                 }}
             />
             <Tab.Screen

@@ -7,7 +7,7 @@ import * as SecureStore from 'expo-secure-store';
 import { useEffect } from 'react';
 import StackNavigator from './navigators/StackNavigator';
 import { useNavigation } from '@react-navigation/native';
-
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 const tokenCache = {
   async getToken(key) {
     try {
@@ -75,13 +75,15 @@ export default function App() {
 
 
   return (
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <ClerkProvider tokenCache={tokenCache} publishableKey='pk_test_c2hhcmluZy1zZXJ2YWwtODUuY2xlcmsuYWNjb3VudHMuZGV2JA' >
+        <StatusBar style="auto" />
+        <NavigationContainer >
+          <InitialLayout />
+        </NavigationContainer>
+      </ClerkProvider>
+    </GestureHandlerRootView>
 
-    <ClerkProvider tokenCache={tokenCache} publishableKey='pk_test_c2hhcmluZy1zZXJ2YWwtODUuY2xlcmsuYWNjb3VudHMuZGV2JA' >
-      <StatusBar style="auto" />
-      <NavigationContainer >
-        <InitialLayout />
-      </NavigationContainer>
-    </ClerkProvider>
 
   );
 }
@@ -96,3 +98,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+

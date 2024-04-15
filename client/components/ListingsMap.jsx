@@ -35,7 +35,9 @@ const ListingsMap = ({ items }) => {
         longitudeDelta: 0.1, // Tương tự như latitudeDelta
     };
 
-
+    const onMarkerSelected = (item) => {
+        navigation.navigate('listingdetails', { listing: item })
+    };
 
     return (
         <View style={defaultStyles.container}>
@@ -51,7 +53,7 @@ const ListingsMap = ({ items }) => {
                 {items?.map((item) => {
                     console.log(item?.id)
                     return <Marker
-                        key={item?._id}
+                        key={item?.id}
                         coordinate={{
                             latitude: +item?.locationData.lat,
                             longitude: +item?.locationData.lng

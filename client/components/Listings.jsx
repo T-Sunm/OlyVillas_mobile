@@ -1,5 +1,5 @@
 import { FlatList, Image, StyleSheet, Text, Touchable, TouchableOpacity, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { getAllProperties } from '../api/Residency'
 import { useNavigation } from '@react-navigation/native'
 import { Ionicons } from '@expo/vector-icons'
@@ -7,10 +7,17 @@ import { BORDERRADIUS, COLORS, FONTFAMILY, SPACING } from '../theme/theme'
 import { starts } from '../utils/calculateStar'
 import Animated from 'react-native-reanimated';
 import { FadeInRight, FadeOutLeft } from 'react-native-reanimated';
-const Listings = () => {
+import { BottomSheetFlatList } from "@gorhom/bottom-sheet";
+const Listings = ({ items, refresh }) => {
 
     const navigation = useNavigation()
-
+    const [loading, setLoading] = useState(false)
+    const listRef = useRef(null)
+    useEffect(() => {
+        if (refresh) {
+            listRef.current?.scrollToOffset({ offset: 0, animated: true })
+        }
+    }, [refresh])
     const renderRow = ({ item }) => {
         return (
             <TouchableOpacity onPress={() => navigation.navigate('listingdetails', { listing: item })}>
@@ -43,9 +50,7 @@ const Listings = () => {
     }
 
     return (
-        <View>
-            <FlatList renderItem={renderRow} data={loading ? [] : items} />
-        </View>
+        <BottomSheetFlatList ref={listRef} renderItem={renderRow} data={loading ? [] : items} ListHeaderComponent={<Text style={styles.info}>{items?.length} home</Text>} />
     )
 }
 
@@ -61,5 +66,11 @@ const styles = StyleSheet.create({
         width: "100%",
         height: 300,
         borderRadius: BORDERRADIUS.radius_10
+    },
+    info: {
+        textAlign: "center",
+        fontFamily: FONTFAMILY.poppins_semibold,
+        fontSize: 16,
+        marginTop: 4
     }
 })
