@@ -6,22 +6,32 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import ListingsMap from '../components/ListingsMap'
 import { getAllProperties } from '../api/Residency'
 import ListingBottomSheet from '../components/ListingBottomSheet'
-
+import useSearchStore from '../store/searchStore'
+import useResidenciesSearchStore from '../store/ResidencySearch'
 const Stack = createNativeStackNavigator();
 const ExploreScreens = ({ navigation }) => {
     const Stack = createNativeStackNavigator();
+    const mapData = useSearchStore(state => state.mapData);
+
+    const residencySearch = useResidenciesSearchStore(state => state.residencies)
+    const { setResidenciesSearch } = useResidenciesSearchStore()
+
     const [items, setItems] = useState()
     const [loading, setLoading] = useState(false)
     const [category, setCategory] = useState('Tiny homes')
     const onDataChange = (category) => {
         setCategory(category)
     }
+
+    // tải all data
     useEffect(() => {
         const fetchData = async () => {
             try {
                 setLoading(true)
                 const data = await getAllProperties()
+                // mặc định ban đầu sẽ tải hết dữ liệu
                 setItems(data)
+                setResidenciesSearch(data)
                 setTimeout(() => {
                     setLoading(false)
                 }, 100)
@@ -37,6 +47,7 @@ const ExploreScreens = ({ navigation }) => {
             items={items}
             category={category}
             onDataChange={onDataChange}
+            residencySearch={residencySearch}
         />
     );
     return (
@@ -55,13 +66,13 @@ const ExploreScreens = ({ navigation }) => {
 
 export default ExploreScreens
 
-const ExploreScreenContent = ({ items, category, onDataChange }) => {
+const ExploreScreenContent = ({ items, category, onDataChange, residencySearch }) => {
+
     return (
         <View style={{ flex: 1 }}>
             <View style={{ flex: 1 }}>
-                {/* <Listings items={items} /> */}
                 <ListingsMap items={items} />
-                <ListingBottomSheet listing={items} category={category} />
+                <ListingBottomSheet listing={residencySearch} category={category} />
             </View>
         </View>
     );

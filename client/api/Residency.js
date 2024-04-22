@@ -16,3 +16,15 @@ export const getAllProperties = async (params = {}) => {
         throw error
     }
 }
+export const getResidency = async (id) => {
+    try {
+        const response = await api.get(`user/getResidency/${id}`)
+        if (response.status === 400 || response.status === 500) {
+            throw response.data
+        }
+        return response.data
+    } catch (error) {
+        console.log(error)
+        throw error
+    }
+}

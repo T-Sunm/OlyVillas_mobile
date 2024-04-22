@@ -8,7 +8,10 @@ import TabNavigators from './TabNavigators';
 import Login from '../screens/Login';
 import { FONTFAMILY } from '../theme/theme';
 import Booking from '../screens/Booking';
-import ListingDetails from '../screens/ListingDetails';
+
+import ModalHeaderText from '../components/ModalHeaderText';
+import ListingDetails from '../screens/ListingScreen/ListingDetails';
+import ListingAmenitiesDetails from '../screens/ListingScreen/ListingAmenitiesDetails';
 
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
@@ -40,6 +43,8 @@ const StackNavigator = () => {
                 options={({ navigation }) => ({
                     animation: "fade",
                     presentation: "transparentModal",
+                    headerTransparent: true,
+                    header: () => <ModalHeaderText navigation={navigation} />,
                     headerLeft: () => (
                         <TouchableOpacity onPress={() => navigation.goBack()}>
                             <Ionicons name="close" size={24} color="black" />
@@ -47,6 +52,7 @@ const StackNavigator = () => {
                     ),
                 })}
             />
+            <Stack.Screen name='ListingAmenitiesDetails' component={ListingAmenitiesDetails} options={{ headerTitle: '', headerTransparent: true }} />
             <Stack.Screen name='listingdetails' component={ListingDetails} options={{ animation: "slide_from_right", headerTitle: '', headerTransparent: true }} />
         </Stack.Navigator>
 

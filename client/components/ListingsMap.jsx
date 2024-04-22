@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react'
 import { Marker, PROVIDER_GOOGLE } from 'react-native-maps'
 import { COLORS, FONTFAMILY, defaultStyles } from '../theme/theme'
 import { useNavigation } from '@react-navigation/native'
@@ -7,32 +7,61 @@ import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplet
 import { GOOGLE_API_KEY } from '../environment'
 import MapView from "react-native-map-clustering";
 import MapSearchInput from './Input/MapSearchInput'
+import useSearchStore from '../store/searchStore'
+import { getAllProperties } from '../api/Residency'
+import useResidenciesSearchStore from '../store/ResidencySearch'
+
 const ListingsMap = ({ items }) => {
+    const { setLocationData } = useSearchStore()
+    const { setResidenciesSearch } = useResidenciesSearchStore()
+    const { locationData } = useSearchStore(state => state);
+    const [loading, setLoading] = useState()
     const navigation = useNavigation()
-    const [location, setLocation] = useState(null)
     const mapRef = useRef(null)
 
     const zoomToLocation = (coord) => {
+        const newRegion = {
+            latitude: coord.lat,
+            longitude: coord.lng,
+            latitudeDelta: 0.05,
+            longitudeDelta: 0.05,
+        };
         if (mapRef.current) {
-            mapRef.current.animateToRegion({
-                latitude: coord.lat,
-                longitude: coord.lng,
-                latitudeDelta: 0.05,
-                longitudeDelta: 0.05,
-            });
+            mapRef.current.animateToRegion(newRegion);
         }
     };
 
-    function selectLocation(loca) {
-        setLocation(loca)
-        zoomToLocation(loca.coord)
-    }
+    const selectLocation = async (loca) => {
+        let mapData = {
+            place: loca.compound.province,
+            // district: loca.compound.district
+        };
 
-    const INITIAL_REGION = {
-        latitude: 16.0544,
-        longitude: 108.2022,
-        latitudeDelta: 0.1, // Giá trị này có thể điều chỉnh tùy theo độ phóng đại bạn muốn
-        longitudeDelta: 0.1, // Tương tự như latitudeDelta
+        setLocationData({
+            latitude: loca.coord.lat,
+            longitude: loca.coord.lng,
+            latitudeDelta: 0.05,
+            longitudeDelta: 0.05,
+        });
+
+        const fetchData = async () => {
+            let params = {
+                mapData
+            }
+            try {
+                setLoading(true)
+                const data = await getAllProperties(params)
+                setResidenciesSearch(data)
+                setTimeout(() => {
+                    setLoading(false)
+                }, 100)
+            } catch (error) {
+                console.error(error)
+            }
+        }
+        fetchData()
+
+        zoomToLocation(loca.coord)
     };
 
     const onMarkerSelected = (item) => {
@@ -46,12 +75,11 @@ const ListingsMap = ({ items }) => {
                 style={styles.container}
                 showsUserLocation={true}
                 showsMyLocationButton={true}
-                initialRegion={INITIAL_REGION}
+                initialRegion={locationData}
                 provider={PROVIDER_GOOGLE}
             >
-                {location && <Marker coordinate={{ latitude: location.coord.lat, longitude: location.coord.lng }} title={location.address} />}
+                {locationData && <Marker coordinate={{ latitude: locationData.lat, longitude: locationData.lng }} />}
                 {items?.map((item) => {
-                    console.log(item?.id)
                     return <Marker
                         key={item?.id}
                         coordinate={{

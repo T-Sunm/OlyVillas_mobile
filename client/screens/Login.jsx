@@ -27,6 +27,7 @@ const Login = () => {
             const { createdSessionId, setActive } = await selectedAuth()
 
             if (createdSessionId) {
+                console.log(createdSessionId)
                 setActive({ session: createdSessionId })
                 navigation.goBack()
             }

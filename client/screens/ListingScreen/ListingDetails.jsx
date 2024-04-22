@@ -1,15 +1,38 @@
 import { Dimensions, Image, Share, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useLayoutEffect, useRef } from 'react'
-import { COLORS, FONTFAMILY, SPACING, defaultStyles } from '../theme/theme';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { COLORS, FONTFAMILY, SPACING, defaultStyles } from '../../theme/theme';
 import Animated, { SlideInDown, interpolate, useAnimatedStyle, useScrollViewOffset } from 'react-native-reanimated';
 import { Ionicons } from '@expo/vector-icons';
-import { starts } from '../utils/calculateStar';
-import { getDate } from '../utils/getDate';
+import { starts } from '../../utils/calculateStar';
+import { getDate } from '../../utils/getDate';
 import { useNavigation } from '@react-navigation/native';
+import ListingAmenities from '../../components/ListingDetails.jsx/ListingAmenities';
+import LocationList from '../../components/ListingDetails.jsx/LocationList';
+import { getResidency } from '../../api/Residency';
+import ReviewListing from '../../components/ListingDetails.jsx/ReviewListing';
 
 const { width } = Dimensions.get('window')
 const ListingDetails = ({ route }) => {
-    const { listing } = route.params;
+    const { id } = route.params;
+    const [listing, setListing] = useState()
+    const [loading, setLoading] = useState()
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                setLoading(true)
+                const data = await getResidency(id)
+                // mặc định ban đầu sẽ tải hết dữ liệu
+                setListing(data)
+                setTimeout(() => {
+                    setLoading(false)
+                }, 100)
+            } catch (error) {
+                console.error(error)
+            }
+        }
+        fetchData()
+    }, [id])
+
     const scrollRef = useRef()
     const scrollOffset = useScrollViewOffset(scrollRef)
     const navigation = useNavigation()
@@ -71,9 +94,9 @@ const ListingDetails = ({ route }) => {
             <Animated.ScrollView ref={scrollRef} contentContainerStyle={{ paddingBottom: 100 }} scrollEventThrottle={16}>
                 <Animated.Image source={{ uri: listing?.photos[0]?.url }} style={[styles.image, imageAnimatedStyle]} />
                 <View style={styles.infoContainer}>
-                    <Text style={styles.name}>{listing.title}</Text>
-                    <Text style={styles.location}>
-                        {listing.placeType?.type} in {listing.mapData?.region ? listing?.mapData?.region + ", " + listing?.mapData?.country : listing?.mapData?.place + ", " + listing?.mapData?.country}
+                    <Text style={styles.name}>{listing?.title}</Text>
+                    <Text style={styles?.location}>
+                        {listing?.placeType?.type} in {listing?.mapData?.region ? listing?.mapData?.region + ", " + listing?.mapData?.country : listing?.mapData?.place + ", " + listing?.mapData?.country}
                     </Text>
                     <Text style={styles.rooms}>
                         {listing?.placeSpace?.guetsts?.quantity} guests · {listing?.placeSpace?.bedrooms?.quantity} bedrooms · {listing?.placeSpace?.beds?.quantity} bed ·{' '}
@@ -91,14 +114,28 @@ const ListingDetails = ({ route }) => {
                         <Image source={{ uri: listing?.photos[listing?.photos.length - 1].url }} style={styles.host} />
 
                         <View>
-                            <Text style={{ fontWeight: '500', fontSize: 16 }}>Hosted by {listing.userEmail}</Text>
+                            <Text style={{ fontWeight: '500', fontSize: 16 }}>Hosted by {listing?.userEmail}</Text>
                             <Text>Host since {getDate(listing?.createdAt)}</Text>
                         </View>
                     </View>
 
+
+                    {/* Description */}
                     <View style={styles.divider} />
 
                     <Text style={styles.description}>{listing?.description}</Text>
+
+                    {/* Amenities */}
+                    <View style={styles.divider} />
+
+                    <ListingAmenities amenties={listing?.placeAmeneties} />
+
+                    {/* Map */}
+                    <LocationList mapLocation={listing?.locationData} mapData={listing?.mapData} />
+
+                    {/* Reviews */}
+                    <View style={styles.divider} />
+                    <ReviewListing ResidencyId={listing?.id} />
 
                 </View>
             </Animated.ScrollView>

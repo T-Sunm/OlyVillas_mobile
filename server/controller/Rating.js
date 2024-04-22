@@ -110,3 +110,29 @@ export const getAllRatingbyauthorUser = async (req, res) => {
         res.sendStatus(500).send('Internal Server Error');
     }
 }
+
+export const getRatingByResidency = async (req, res) => {
+    const { ResidencyId } = req.query;
+    console.log(ResidencyId)
+    try {
+        const Rating = await prisma.rating.findMany({
+            where: {
+                ResidencyId: ResidencyId
+            },
+            include: {
+                User: {
+                    select: {
+                        firstName: true,
+                        lastName: true,
+                        email: true
+                    }
+                }
+            }
+        })
+        res.send(Rating)
+
+    } catch (error) {
+        console.log(error)
+        throw new Error(error.message);
+    }
+}
