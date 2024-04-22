@@ -13,14 +13,14 @@ const Listings = ({ items, refresh }) => {
     const navigation = useNavigation()
     const [loading, setLoading] = useState(false)
     const listRef = useRef(null)
-    useEffect(() => {
-        if (refresh) {
-            listRef.current?.scrollToOffset({ offset: 0, animated: true })
-        }
-    }, [refresh])
+    // useEffect(() => {
+    //     if (refresh) {
+    //         listRef.current?.scrollToOffset({ offset: 0, animated: true })
+    //     }
+    // }, [refresh])
     const renderRow = ({ item }) => {
         return (
-            <TouchableOpacity onPress={() => navigation.navigate('listingdetails', { listing: item })}>
+            <TouchableOpacity onPress={() => navigation.navigate('listingdetails', { id: item?.id })}>
                 <Animated.View style={styles.listing} entering={FadeInRight} exiting={FadeOutLeft}>
                     <Image source={{ uri: item.photos[0].url }} style={styles.image} />
                     <TouchableOpacity style={{ position: 'absolute', top: 30, right: 30 }}>

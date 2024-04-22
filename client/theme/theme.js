@@ -102,7 +102,7 @@ export const defaultStyles = StyleSheet.create({
         backgroundColor: '#fff',
         paddingVertical: 10,
         paddingHorizontal: 20,
-        borderTopColor: COLORS.grey,
+        borderTopColor: COLORS.Grey,
         borderTopWidth: StyleSheet.hairlineWidth,
     },
 });
@@ -136,4 +136,4 @@ export const categories = [
         name: 'Countryside',
         icon: 'nature-people',
     },
-];; 'l'
+];

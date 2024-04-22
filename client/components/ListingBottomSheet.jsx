@@ -8,14 +8,13 @@ import { COLORS, FONTFAMILY } from '../theme/theme';
 import { Ionicons } from '@expo/vector-icons';
 const ListingBottomSheet = ({ listing, category }) => {
     const bottomSheetRef = useRef(null)
-    const [refresh, setRefresh] = useState(0)
+    // const [refresh, setRefresh] = useState(0)
     const handleSheetChanges = useCallback((index) => {
         console.log('handleSheetChanges', index);
     }, []);
     const snapPoints = useMemo(() => ['10%', '100%'], [])
     const showMap = () => {
         bottomSheetRef.current?.collapse()
-        setRefresh(refresh + 1)
     }
     return (
 
@@ -23,13 +22,13 @@ const ListingBottomSheet = ({ listing, category }) => {
             ref={bottomSheetRef}
             snapPoints={snapPoints}
             // Đây là index của snapPoint ban đầu mà bottom sheet sẽ hiển thị khi component được mount
-            index={1}
+            index={0}
             enablePanDownToClose={false}
             handleIndicatorStyle={{ backgroundColor: COLORS.Grey }}
             style={styles.sheetContainer}
         >
 
-            <Listings items={listing} refresh={refresh} />
+            <Listings items={listing} />
             <View style={styles.absoluteBtn}>
                 <TouchableOpacity onPress={showMap} style={styles.btn}>
                     <Text style={{ color: COLORS.White, fontFamily: FONTFAMILY.poppins_regular }} >Map</Text>

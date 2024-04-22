@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 import StackNavigator from './navigators/StackNavigator';
 import { useNavigation } from '@react-navigation/native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { enGB, registerTranslation } from 'react-native-paper-dates'
 const tokenCache = {
   async getToken(key) {
     try {
@@ -42,10 +43,28 @@ const InitialLayout = () => {
 
   if (!isLoaded) return null
   return <StackNavigator />
-
 }
 
 export default function App() {
+
+  registerTranslation('en', {
+    save: 'Save',
+    selectSingle: 'Select date',
+    selectMultiple: 'Select dates',
+    selectRange: 'Select period',
+    notAccordingToDateFormat: (inputFormat) =>
+      `Date format must be ${inputFormat}`,
+    mustBeHigherThan: (date) => `Must be later then ${date}`,
+    mustBeLowerThan: (date) => `Must be earlier then ${date}`,
+    mustBeBetween: (startDate, endDate) =>
+      `Must be between ${startDate} - ${endDate}`,
+    dateIsDisabled: 'Day is not allowed',
+    previous: 'Previous',
+    next: 'Next',
+    typeInDate: 'Type in date',
+    pickDateFromCalendar: 'Pick date from calendar',
+    close: 'Close',
+  })
 
   const [fontsLoaded, fontError] = useFonts({
     'Poppins-Black': require('./assets/fonts/Poppins-Black.ttf'),
