@@ -152,7 +152,19 @@ const ListingDetails = ({ route }) => {
                             </Text>
                         </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={[defaultStyles.btn, { paddingHorizontal: 20 }]}>
+                    <TouchableOpacity style={[defaultStyles.btn, { paddingHorizontal: 20 }]} onPress={() => navigation.navigate('ReserveScreen',
+                        {
+                            ResidencyId: listing?.id,
+                            title: listing?.title,
+                            locationType: listing?.locationType,
+                            placeType: listing?.placeType,
+                            Review: {
+                                rating: starts(listing?.Rating),
+                                lengthReview: listing?.Rating?.length
+                            },
+                            image: listing?.photos[0]?.url
+                        }
+                    )}>
                         <Text style={defaultStyles.btnText}>
                             Reserve
                         </Text>
