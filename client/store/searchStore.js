@@ -1,6 +1,7 @@
 import { create } from 'zustand'
+import { subscribeWithSelector } from 'zustand/middleware';
 
-const useSearchStore = create((set) => ({
+const useSearchStore = create(subscribeWithSelector((set) => ({
     locationData: {
         latitude: 16.4637,
         longitude: 107.5909,
@@ -10,6 +11,6 @@ const useSearchStore = create((set) => ({
     mapData: undefined,
     setMapData: (mapData) => set({ mapData: mapData }),
     setLocationData: (locationData) => set({ locationData: locationData })
-}));
+})));
 
 export default useSearchStore

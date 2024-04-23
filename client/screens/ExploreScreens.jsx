@@ -11,7 +11,7 @@ import useResidenciesSearchStore from '../store/ResidencySearch'
 const Stack = createNativeStackNavigator();
 const ExploreScreens = ({ navigation }) => {
     const Stack = createNativeStackNavigator();
-    const mapData = useSearchStore(state => state.mapData);
+
 
     const residencySearch = useResidenciesSearchStore(state => state.residencies)
     const { setResidenciesSearch } = useResidenciesSearchStore()
@@ -32,13 +32,11 @@ const ExploreScreens = ({ navigation }) => {
                 // mặc định ban đầu sẽ tải hết dữ liệu
                 setItems(data)
                 setResidenciesSearch(data)
-                console.log("ssss")
-                setTimeout(() => {
-                    setLoading(false)
-                }, 100)
+                // setTimeout(() => {
+                //     setLoading(false)
+                // }, 100)
             } catch (error) {
                 console.error(error)
-                console.log(error.message)
             }
         }
         fetchData()
