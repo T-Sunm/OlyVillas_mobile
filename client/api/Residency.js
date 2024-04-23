@@ -1,6 +1,7 @@
 import axios from 'axios'
+import { API_HOST } from '../environment'
 export const api = axios.create({
-    baseURL: "http://26.65.38.219:8080/api/"
+    baseURL: `${API_HOST}/api/`
 })
 
 export const getAllProperties = async (params = {}) => {

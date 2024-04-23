@@ -32,11 +32,13 @@ const ExploreScreens = ({ navigation }) => {
                 // mặc định ban đầu sẽ tải hết dữ liệu
                 setItems(data)
                 setResidenciesSearch(data)
+                console.log("ssss")
                 setTimeout(() => {
                     setLoading(false)
                 }, 100)
             } catch (error) {
                 console.error(error)
+                console.log(error.message)
             }
         }
         fetchData()
