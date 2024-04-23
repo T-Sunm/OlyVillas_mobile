@@ -7,7 +7,6 @@ import Star from '../Star/Star';
 import { getRatingByResidency } from '../../api/Rating';
 
 const ReviewListing = ({ ResidencyId }) => {
-    console.log(ResidencyId)
 
     const [reviews, setReviews] = useState()
     const [loading, setLoading] = useState()

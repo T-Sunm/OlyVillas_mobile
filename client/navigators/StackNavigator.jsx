@@ -12,6 +12,8 @@ import Booking from '../screens/Booking';
 import ModalHeaderText from '../components/ModalHeaderText';
 import ListingDetails from '../screens/ListingScreen/ListingDetails';
 import ListingAmenitiesDetails from '../screens/ListingScreen/ListingAmenitiesDetails';
+import ReserveScreen from '../screens/ReserveScreen/ReserveScreen';
+import PhoneScreen from '../screens/ReserveScreen/PhoneScreen';
 
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
@@ -53,7 +55,9 @@ const StackNavigator = () => {
                 })}
             />
             <Stack.Screen name='ListingAmenitiesDetails' component={ListingAmenitiesDetails} options={{ headerTitle: '', headerTransparent: true }} />
+            <Stack.Screen name='PhoneScreen' component={PhoneScreen} options={{ headerTitle: '', headerTransparent: true }} />
             <Stack.Screen name='listingdetails' component={ListingDetails} options={{ animation: "slide_from_right", headerTitle: '', headerTransparent: true }} />
+            <Stack.Screen name='ReserveScreen' component={ReserveScreen} options={{ headerTitle: 'Confirm and pay ', headerTitleAlign: "center", animation: "slide_from_right" }} />
         </Stack.Navigator>
 
     )

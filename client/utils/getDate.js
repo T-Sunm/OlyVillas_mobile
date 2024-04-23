@@ -19,8 +19,15 @@ export function convertISOToFormattedDates(startISO, endISO) {
     // Tùy chỉnh để định dạng ngày tháng: "31 Dec 2025"
     const options = { day: '2-digit', month: 'short', year: 'numeric' };
     const startFormatted = startDate.toLocaleDateString('en-GB', options);
-    const endFormatted = endDate.toLocaleDateString('en-GB', options);
 
-    // Kết hợp các định dạng để tạo chuỗi kết quả cuối cùng
-    return `${startFormatted} - ${endFormatted}`;
+    // Kiểm tra nếu ngày bắt đầu và kết thúc là cùng một ngày
+    if (startDate.getTime() === endDate.getTime()) {
+        // Trả về ngày bắt đầu đã định dạng nếu cùng ngày
+        return startFormatted;
+    } else {
+        // Nếu khác nhau, định dạng cả ngày bắt đầu và kết thúc
+        const endFormatted = endDate.toLocaleDateString('en-GB', options);
+        return `${startFormatted} - ${endFormatted}`;
+    }
+
 }
