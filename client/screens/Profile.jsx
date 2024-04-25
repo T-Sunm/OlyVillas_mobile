@@ -4,21 +4,42 @@ import { useAuth, useUser } from '@clerk/clerk-expo'
 import { Ionicons } from '@expo/vector-icons'
 import { COLORS, FONTFAMILY, defaultStyles } from '../theme/theme'
 import { TouchableOpacity } from 'react-native-gesture-handler'
+import LogoutLoginBtn from '../components/Profile/LogoutLoginBtn'
+import { getDataInStorage } from '../utils/data/AsyncStorage'
+import useUserStore from '../store/User'
+
 
 const Profile = () => {
-    const { signOut, isSignedIn } = useAuth()
+    // const { signOut, isSignedIn } = useAuth()
     const { user } = useUser()
-    const [firstName, setFirstName] = useState(user?.firstName)
-    const [lastName, setLastName] = useState(user?.lastName)
-    const [email, setEmail] = useState(user?.emailAddresses[0].emailAddress)
+    const { userData, isSignedIn } = useUserStore()
+    console.log(userData)
+    // console.log(userAsyncStorage)
+    const [firstName, setFirstName] = useState(userData?.firstName ? userData?.firstName : "")
+    const [lastName, setLastName] = useState(userData?.lastName ? userData?.lastName : "")
+    const [email, setEmail] = useState(userData?.email ? userData?.email : "")
     const [edit, setEdit] = useState(false)
 
     useEffect(() => {
-        if (!user) return
-        setFirstName(user.firstName)
-        setLastName(user.lastName)
-        setEmail(user?.emailAddresses[0].emailAddress)
-    }, [user])
+        const fetchData = async () => {
+            try {
+                if (userData) {
+                    setFirstName(userData.firstName);
+                    setLastName(userData.lastName);
+                    setEmail(userData.email); // Chắc chắn rằng đây là tên thuộc tính chính xác
+                } else {
+                    setFirstName("");
+                    setLastName("");
+                    setEmail(""); // Chắc chắn rằng đây là tên thuộc tính chính xác
+                }
+            } catch (e) {
+                console.log("file Profile hàng 32", e);
+            }
+        };
+
+        fetchData();
+    }, [userData]);
+
 
     const onCaptureImage = async () => {
         // let result = await ImagePicker.launchImageLibraryAsync({
@@ -31,10 +52,10 @@ const Profile = () => {
     // Update Clerk user data
     const onSaveUser = async () => {
         try {
-            await user?.update({
-                firstName: firstName,
-                lastName: lastName,
-            });
+            // await user?.update({
+            //     firstName: firstName,
+            //     lastName: lastName,
+            // });
         } catch (error) {
             console.log(error);
         } finally {
@@ -42,13 +63,16 @@ const Profile = () => {
         }
     };
 
+
+
+
     return (
         <View style={defaultStyles.container}>
             <View style={styles.headerContainer}>
                 <Text style={styles.headerText}>Profile</Text>
                 <Ionicons name='notifications-outline' size={26} />
             </View>
-            {user && (
+            {isSignedIn && (
                 <View style={styles.card}>
                     <TouchableOpacity onPress={onCaptureImage}>
                         <Image source={{ uri: user?.imageUrl }} style={styles.avatar} />
@@ -91,6 +115,7 @@ const Profile = () => {
                     </Text>
                 </View>
             )}
+            <LogoutLoginBtn isSignedIn={isSignedIn} typeLogin={userData?.typeLogin} />
         </View>
     )
 }

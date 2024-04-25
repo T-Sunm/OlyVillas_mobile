@@ -1,6 +1,6 @@
 import { FlatList, Image, StyleSheet, Text, Touchable, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
-import { getAllProperties } from '../api/Residency'
+import { FavouritesResidency, getAllProperties } from '../api/Residency'
 import { useNavigation } from '@react-navigation/native'
 import { Ionicons } from '@expo/vector-icons'
 import { BORDERRADIUS, COLORS, FONTFAMILY, SPACING } from '../theme/theme'
@@ -8,23 +8,36 @@ import { starts } from '../utils/calculateStar'
 import Animated from 'react-native-reanimated';
 import { FadeInRight, FadeOutLeft } from 'react-native-reanimated';
 import { BottomSheetFlatList } from "@gorhom/bottom-sheet";
+import useUserStore from '../store/User'
+import { hasFavorited } from '../utils/FavoriteResidency'
 const Listings = ({ items, refresh }) => {
 
     const navigation = useNavigation()
     const [loading, setLoading] = useState(false)
     const listRef = useRef(null)
+    const { userData, setFavResidenciesId } = useUserStore()
     // useEffect(() => {
     //     if (refresh) {
     //         listRef.current?.scrollToOffset({ offset: 0, animated: true })
     //     }
     // }, [refresh])
+
+    const handleFavorite = async (id) => {
+        const data = FavouritesResidency(id, userData?.email)
+        console.log(data)
+        setFavResidenciesId(id)
+    }
+
     const renderRow = ({ item }) => {
         return (
             <TouchableOpacity onPress={() => navigation.navigate('listingdetails', { id: item?.id })}>
                 <Animated.View style={styles.listing} entering={FadeInRight} exiting={FadeOutLeft}>
                     <Image source={{ uri: item.photos[0].url }} style={styles.image} />
-                    <TouchableOpacity style={{ position: 'absolute', top: 30, right: 30 }}>
-                        <Ionicons name='heart-outline' size={24} color={COLORS.Black} />
+                    <TouchableOpacity style={{ position: 'absolute', top: 30, right: 30 }} onPress={() => handleFavorite(item?.id)}>
+                        {hasFavorited(item?.id, userData) ?
+                            <Ionicons name="heart" size={24} color={COLORS.primary} />
+                            : <Ionicons name='heart-outline' size={24} color={COLORS.Black} />
+                        }
                     </TouchableOpacity>
                     <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
                         <Text style={{ fontFamily: FONTFAMILY.poppins_semibold, fontSize: 16 }}>

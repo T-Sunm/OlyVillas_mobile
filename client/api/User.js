@@ -4,39 +4,39 @@ export const api = axios.create({
     baseURL: `${API_HOST}:8080/api/`
 })
 
-export const getAllProperties = async (params = {}) => {
-
+export const verifyEmail = async (email) => {
+    console.log(email)
     try {
-        const response = await api.post("user/getResidencies", params)
+        const response = await api.post("user/verifyEmail", { email: email })
+        if (response.status === 400 || response.status === 500) {
+            throw response.data
+        }
+
+        return response.data
+
+    } catch (error) {
+        throw error
+    }
+}
+export const createUser = async (email, password, firstName, lastName) => {
+    try {
+        const response = await api.post(`user/register`, { email, password, firstName, lastName })
         if (response.status === 400 || response.status === 500) {
             throw response.data
         }
         return response.data
     } catch (error) {
-        console.log(error)
-        throw error
-    }
-}
-export const getResidency = async (id) => {
-    try {
-        const response = await api.get(`user/getResidency/${id}`)
-        if (response.status === 400 || response.status === 500) {
-            throw response.data
-        }
-        return response.data
-    } catch (error) {
-        console.log(error)
         throw error
     }
 }
 
-export const FavouritesResidency = async (ResidencyId, email) => {
+export const login = async (email, password) => {
     try {
-        const result = await api.post(`user/toFav/${ResidencyId}`, { email })
+        const result = await api.post(`user/login`, { email, password })
         if (result.status === 401 || result.status === 500) {
             throw result.data
         }
-        return result.data
+        return result.data.user
     } catch (error) {
         throw error
     }

@@ -162,7 +162,8 @@ const ListingDetails = ({ route }) => {
                                 rating: starts(listing?.Rating),
                                 lengthReview: listing?.Rating?.length
                             },
-                            image: listing?.photos[0]?.url
+                            image: listing?.photos[0]?.url,
+                            price: listing?.price
                         }
                     )}>
                         <Text style={defaultStyles.btnText}>

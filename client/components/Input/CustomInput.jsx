@@ -1,11 +1,12 @@
-import { StyleSheet, Text, TextInput, View } from 'react-native'
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import Animated, { interpolate, interpolateColor, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
-import { validateEmail } from '../../utils/Validate';
+import { validateEmail, validatePassword } from '../../utils/Validate';
+import { Entypo } from '@expo/vector-icons';
+const CustomInput = ({ containerStyle, placeholder, onChangeText, error, setError, type, ...props }) => {
 
-const CustomInput = ({ containerStyle, placeholder, onChangeText, error, setError, ...props }) => {
-
-    const [text, setText] = useState()
+    const [text, setText] = useState(props.value ? props.value : "")
+    const [showPassword, setShowPassword] = useState(props.secureTextEntry);
     const [isFocused, setIsFocused] = useState(false);
     const labelPosition = useSharedValue(text ? 1 : 0);
     const labelAnimatedStyle = useAnimatedStyle(() => {
@@ -34,7 +35,6 @@ const CustomInput = ({ containerStyle, placeholder, onChangeText, error, setErro
     };
 
     const handleTextChange = (text) => {
-
         let errorMessage
 
         setText(text);
@@ -42,8 +42,11 @@ const CustomInput = ({ containerStyle, placeholder, onChangeText, error, setErro
             onChangeText(text);
         }
 
-        if (placeholder == "Email") {
+        if (type == "Email") {
             errorMessage = validateEmail(text);
+        }
+        if (type === "Password") {
+            errorMessage = validatePassword(text, props.email);
         }
         if (setError) {
             if (errorMessage) {
@@ -74,7 +77,24 @@ const CustomInput = ({ containerStyle, placeholder, onChangeText, error, setErro
                     onChangeText={handleTextChange}
                     value={text}
                     textAlignVertical="center"
+                    textContentType={props.secureTextEntry ? 'newPassword' : props.secureTextEntry}
+                    secureTextEntry={showPassword}
+
                 />
+                {props.secureTextEntry && !!text && (
+                    <View>
+                        <TouchableOpacity
+                            style={{ width: 20, position: "absolute", right: 10, bottom: 15 }}
+                            onPress={() => setShowPassword(!showPassword)}
+                        >
+                            {!showPassword ? (
+                                <Entypo name="eye" size={20} color="black" />
+                            ) : (
+                                <Entypo name="eye-with-line" size={20} color="black" />
+                            )}
+                        </TouchableOpacity>
+                    </View>
+                )}
             </View>
             {error && <Text style={styles.errorText}>{error}</Text>}
         </View>

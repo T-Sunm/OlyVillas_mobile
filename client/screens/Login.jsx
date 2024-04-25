@@ -1,22 +1,36 @@
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import useWarmUpBrowser from '../hooks/useWarmUpBrowser'
 import { COLORS, FONTFAMILY, SPACING, defaultStyles } from '../theme/theme'
 import { Ionicons } from '@expo/vector-icons';
-import { useOAuth } from '@clerk/clerk-expo';
+import { useOAuth, useSession, useUser } from '@clerk/clerk-expo';
 import { useNavigation } from '@react-navigation/native';
+import { login, verifyEmail } from '../api/User';
+import { storeDataObj } from '../utils/data/AsyncStorage';
+import { validateEmail, validatePassword } from '../utils/Validate';
+import useUserStore from '../store/User';
 
 const Strategy = {
     Google: "oauth_google",
     Facebook: "oauth_facebook"
 }
 
+
+
+
 const Login = () => {
     useWarmUpBrowser()
     const navigation = useNavigation()
     const { startOAuthFlow: googleAuth } = useOAuth({ strategy: 'oauth_google' })
     const { startOAuthFlow: facebookAuth } = useOAuth({ strategy: 'oauth_facebook' })
+    const { user } = useUser()
+    const { session } = useSession();
 
+    const { setUserData, setIsSignIn } = useUserStore()
+
+
+
+    // -------- Đăng nhập bằng clerk -----------
     const onSelectAuth = async (strategy) => {
         const selectedAuth = {
             [Strategy.Google]: googleAuth,
@@ -27,20 +41,142 @@ const Login = () => {
             const { createdSessionId, setActive } = await selectedAuth()
 
             if (createdSessionId) {
-                console.log(createdSessionId)
-                setActive({ session: createdSessionId })
-                navigation.goBack()
+                await setActive({ session: createdSessionId })
             }
         } catch (error) {
-
+            console.log(error)
         }
 
     }
 
+    useEffect(() => {
+        const checkUserAndNavigate = async () => {
+            if (session && user?.emailAddresses?.length > 0) {
+                console.log('Session updated', session);
+                try {
+                    const isUsedEmail = await verifyEmail(user.emailAddresses[0].emailAddress);
+                    console.log('Email verification result:', isUsedEmail);
+                    if (!isUsedEmail?.user) {
+                        navigation.navigate('register');
+                    } else {
+                        const userData = {
+                            id: isUsedEmail?.infoUser?.id,
+                            firstName: isUsedEmail?.infoUser?.firstName,
+                            lastName: isUsedEmail?.infoUser?.lastName,
+                            email: isUsedEmail?.infoUser?.email,
+                            createdAt: isUsedEmail?.infoUser?.createdAt,
+                            updatedAt: isUsedEmail?.infoUser?.updatedAt,
+                            favResidenciesID: isUsedEmail?.infoUser?.favResidenciesID,
+                            typeLogin: user.externalAccounts[0].provider
+                        }
+                        storeDataObj("userInfo", userData)
+                        setUserData(userData)
+                        setIsSignIn(true)
+                        navigation.goBack();
+                    }
+                } catch (error) {
+                    console.error('Error verifying email:', error);
+                    // Xử lý lỗi nếu cần
+                }
+            }
+        };
+
+        checkUserAndNavigate();
+
+    }, [session, user]);
+
+
+    // -------- Đăng nhập bình thường -----------
+
+    const [email, setEmail] = useState('');
+    const [emailError, setEmailError] = useState('')
+    const [password, setPassword] = useState('');
+    const [passwordError, setPasswordError] = useState('')
+    const handleEmailChange = (text) => {
+        let errorMessage
+        setEmail(text);
+        errorMessage = validateEmail(text);
+        if (errorMessage) {
+            setEmailError(errorMessage);
+        } else {
+            setEmailError('');
+        }
+    }
+
+    const handlePassWordChange = (text) => {
+        let errorMessage
+        setPassword(text);
+        errorMessage = validatePassword(text);
+        if (errorMessage) {
+            setPasswordError(errorMessage);
+        } else {
+            setPasswordError('');
+        }
+    }
+
+    const handleLoginByNormal = async () => {
+
+        // lần đầu mount thì disable kh hoạt động , thêm 4 dòng nay để xử lý
+        setPasswordError(validatePassword(password))
+        setEmailError(validateEmail(email))
+        if (email == '' || password == '') {
+            return
+        }
+
+
+        try {
+            console.log(email)
+            const userInfo = await login(email, password);
+            console.log('Email verification result:', userInfo);
+            if (!userInfo) {
+                return
+            } else {
+                const userData = {
+                    id: userInfo?.id,
+                    firstName: userInfo?.firstName,
+                    lastName: userInfo?.lastName,
+                    email: userInfo?.email,
+                    createdAt: userInfo?.createdAt,
+                    updatedAt: userInfo?.updatedAt,
+                    favResidenciesID: userInfo?.favResidenciesID,
+                    typeLogin: "normal"
+                }
+                storeDataObj("userInfo", userData)
+                setUserData(userData)
+                setIsSignIn(true)
+                navigation.goBack();
+            }
+        } catch (error) {
+            console.error('Error verifying email:', error);
+            // Xử lý lỗi nếu cần
+        }
+    }
+
     return (
         <View style={styles.container}>
-            <TextInput autoCapitalize='none' placeholder='Email' style={[defaultStyles.inputField, { marginBottom: 30 }]} />
-            <TouchableOpacity style={defaultStyles.btn}>
+            <View style={{ marginBottom: 10, gap: 10 }}>
+                <View>
+                    <TextInput
+                        autoCapitalize='none'
+                        placeholder='Email'
+                        style={[defaultStyles.inputField]}
+                        onChangeText={handleEmailChange}
+                    />
+                    {emailError && <Text style={styles.errorText}>{emailError}</Text>}
+                </View>
+
+                <View>
+                    <TextInput
+                        autoCapitalize='none'
+                        placeholder='Password'
+                        style={[defaultStyles.inputField]}
+                        onChangeText={handlePassWordChange}
+                    />
+                    {passwordError && <Text style={styles.errorText}>{passwordError}</Text>}
+                </View>
+            </View>
+            <TouchableOpacity style={[defaultStyles.btn, (emailError !== '' || passwordError !== '') ? styles.disabledBtn : {}]}
+                onPress={handleLoginByNormal} disabled={emailError !== '' || passwordError !== ''}>
                 <Text style={defaultStyles.btnText}>Continue</Text>
             </TouchableOpacity>
             <View style={styles.separatorView}>
@@ -122,5 +258,13 @@ const styles = StyleSheet.create({
         color: COLORS.Black,
         fontSize: 16,
         fontFamily: FONTFAMILY.poppins_semibold
-    }
+    },
+    errorText: {
+        marginTop: 5,
+        fontSize: 14,
+        color: 'red',
+    },
+    disabledBtn: {
+        backgroundColor: 'gray'
+    },
 });

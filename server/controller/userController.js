@@ -39,9 +39,24 @@ export const createUser = asyncHandler(async (req, res) => {
 
 export const verifyEmail = asyncHandler(async (req, res) => {
   let { email } = req.body
-  const existUser = await prisma.user.findUnique({ where: { email: email } });
+  const existUser = await prisma.user.findUnique({
+    where: { email: email },
+    select: {
+      id: true,
+      firstName: true,
+      lastName: true,
+      email: true,
+      createdAt: true,
+      updatedAt: true,
+      favResidenciesID: true
+    },
+  });
+
   if (existUser) {
+    const favResidenciesOnlyIds = existUser.favResidenciesID.map(item => item.ResidencyId);
+    existUser.favResidenciesID = favResidenciesOnlyIds
     res.send({
+      infoUser: existUser,
       message: "User already registered",
       user: true,
     });
@@ -55,11 +70,10 @@ export const verifyEmail = asyncHandler(async (req, res) => {
 
 export const login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
-
   const user = await prisma.user.findUnique({
     where: { email },
     include: {
-      favResidenciesID: true
+      favResidenciesID: true,
     }
   });
 

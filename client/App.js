@@ -1,14 +1,18 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useFonts } from 'expo-font';
 import { NavigationContainer } from '@react-navigation/native';
-import { ClerkProvider, useAuth } from '@clerk/clerk-expo';
+import { ClerkProvider, useAuth, useUser } from '@clerk/clerk-expo';
 import * as SecureStore from 'expo-secure-store';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import StackNavigator from './navigators/StackNavigator';
 import { useNavigation } from '@react-navigation/native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { enGB, registerTranslation } from 'react-native-paper-dates'
+import { verifyEmail } from './api/User';
+import { getDataInStorage, removeValueStorage } from './utils/data/AsyncStorage';
+import * as React from 'react';
+import { navigationRef, navigate } from './utils/RootNavigation';
 const tokenCache = {
   async getToken(key) {
     try {
@@ -18,6 +22,7 @@ const tokenCache = {
     }
   },
   async saveToken(key, value) {
+
     try {
       return SecureStore.setItemAsync(key, value);
     } catch (err) {
@@ -33,13 +38,29 @@ const tokenCache = {
 const InitialLayout = () => {
   const { isLoaded, isSignedIn } = useAuth()
   const navigation = useNavigation();
+  const { user } = useUser()
   useEffect(() => {
-    console.log('isSignedIn', isSignedIn)
-    if (isLoaded && !isSignedIn) {
-      navigation.navigate('login')
-    }
 
-  }, [isSignedIn])
+    const authenticate = async () => {
+
+      const userAsyncStorage = await getDataInStorage("userInfo");
+
+      if (isLoaded && !isSignedIn) {
+        if (userAsyncStorage?.typeLogin == "normal") {
+          return <StackNavigator />
+        }
+        removeValueStorage("userInfo")
+        // bởi vì lúc khởi động thì navigation chạy chưa xong mà mình đã chuyển hướng thì sẽ lỗi
+        // nên là mình phải custom navigate 2 đoạn này để lúc navigationRef.isReady() thì mới điều hướng
+        navigate('login');
+      }
+      if (!userAsyncStorage) {
+        navigate('login');
+      }
+    };
+    // Gọi hàm async
+    authenticate();
+  }, [isSignedIn, user])
 
   if (!isLoaded) return null
   return <StackNavigator />
@@ -92,17 +113,15 @@ export default function App() {
     return null;
   }
 
-
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <ClerkProvider tokenCache={tokenCache} publishableKey='pk_test_c2hhcmluZy1zZXJ2YWwtODUuY2xlcmsuYWNjb3VudHMuZGV2JA' >
-        <StatusBar style="auto" />
-        <NavigationContainer >
+    <NavigationContainer ref={navigationRef} >
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <ClerkProvider tokenCache={tokenCache} publishableKey='pk_test_c2hhcmluZy1zZXJ2YWwtODUuY2xlcmsuYWNjb3VudHMuZGV2JA' >
+          <StatusBar style="auto" />
           <InitialLayout />
-        </NavigationContainer>
-      </ClerkProvider>
-    </GestureHandlerRootView>
-
+        </ClerkProvider>
+      </GestureHandlerRootView>
+    </NavigationContainer>
 
   );
 }

@@ -21,7 +21,7 @@ export const COLORS = {
     primary: '#FF385C',
     dark: '#1A1A1A',
     Grey: "#333333",
-    DarkGrey: '#ebebeb',
+    DarkGrey: '#cbcbcb',
     Yellow: '#E1CD17',
     White: "#FFFFFF",
     WhiteRGBA758: 'rgba(255,255,255,0.75)',
