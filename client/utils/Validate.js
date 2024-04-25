@@ -23,3 +23,23 @@ export const validateEmail = (email) => {
     // Nếu tất cả kiểm tra đều hợp lệ, trả về chuỗi rỗng (không có lỗi)
     return "";
 };
+
+export const validatePassword = (password, email) => {
+    // Kiểm tra mật khẩu có được nhập hay không
+    if (!password) return "Password cannot be blank.";
+
+    // Kiểm tra độ dài mật khẩu
+    if (password.length < 8) return "Password must be at least 8 characters long.";
+
+    // Kiểm tra mật khẩu chứa số hoặc ký tự đặc biệt
+    if (!/[0-9]/.test(password) && !/[^a-zA-Z0-9]/.test(password)) {
+        return "Password must contain a number or a special character.";
+    }
+
+    if (email && password.toLowerCase().includes(email.split('@')[0].toLowerCase())) {
+        return "Password cannot contain your email address.";
+    }
+
+    // Nếu tất cả kiểm tra đều hợp lệ, trả về chuỗi rỗng (không có lỗi)
+    return "";
+};

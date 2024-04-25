@@ -38,7 +38,7 @@ const YourTripComponent = ({ onSnapPress }) => {
                             </Text>
                         </View>
                         <View>
-                            <Text style={{ fontSize: 13, fontFamily: FONTFAMILY.poppins_regular }}>
+                            <Text style={{ fontSize: 15, fontFamily: FONTFAMILY.poppins_regular }}>
                                 {convertISOToFormattedDates(rangeDate.startDate, rangeDate.endDate)}
                             </Text>
                         </View>
@@ -57,7 +57,7 @@ const YourTripComponent = ({ onSnapPress }) => {
                             </Text>
                         </View>
                         <View>
-                            <Text style={{ fontSize: 13, fontFamily: FONTFAMILY.poppins_regular }}>
+                            <Text style={{ fontSize: 15, fontFamily: FONTFAMILY.poppins_regular }}>
                                 {Guests.Adults + Guests.Children} guest
                             </Text>
                         </View>
@@ -92,6 +92,7 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.White,
         padding: 20,
         gap: 10,
-        height: "auto"
+        height: "auto",
+        marginTop: 10
     }
 })

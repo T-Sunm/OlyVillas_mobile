@@ -44,14 +44,20 @@ const ListingsMap = ({ items }) => {
             longitudeDelta: 0.05,
         });
 
+        zoomToLocation(loca.coord)
+
         const fetchData = async () => {
             let params = {
                 mapData
             }
+
             try {
                 setLoading(true)
                 const data = await getAllProperties(params)
+
+                // GỌI hàm set này là bị re-render map , htai chua biet cach fix
                 setResidenciesSearch(data)
+
                 setTimeout(() => {
                     setLoading(false)
                 }, 100)
@@ -59,9 +65,9 @@ const ListingsMap = ({ items }) => {
                 console.error(error)
             }
         }
-        fetchData()
+        await fetchData()
 
-        zoomToLocation(loca.coord)
+
     };
 
     const onMarkerSelected = (item) => {
@@ -78,7 +84,7 @@ const ListingsMap = ({ items }) => {
                 initialRegion={locationData}
                 provider={PROVIDER_GOOGLE}
             >
-                {locationData && <Marker coordinate={{ latitude: locationData.lat, longitude: locationData.lng }} />}
+                {/* {locationData && <Marker coordinate={{ latitude: locationData.lat, longitude: locationData.lng }} />} */}
                 {items?.map((item) => {
                     return <Marker
                         key={item?.id}

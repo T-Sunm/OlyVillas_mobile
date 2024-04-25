@@ -8,15 +8,16 @@ import { getAllProperties } from '../api/Residency'
 import ListingBottomSheet from '../components/ListingBottomSheet'
 import useSearchStore from '../store/searchStore'
 import useResidenciesSearchStore from '../store/ResidencySearch'
+import useResidenciesStore from '../store/residencyStore'
 const Stack = createNativeStackNavigator();
 const ExploreScreens = ({ navigation }) => {
     const Stack = createNativeStackNavigator();
-    const mapData = useSearchStore(state => state.mapData);
+
 
     const residencySearch = useResidenciesSearchStore(state => state.residencies)
     const { setResidenciesSearch } = useResidenciesSearchStore()
+    const { setResidencies, residencies } = useResidenciesStore()
 
-    const [items, setItems] = useState()
     const [loading, setLoading] = useState(false)
     const [category, setCategory] = useState('Tiny homes')
     const onDataChange = (category) => {
@@ -30,15 +31,13 @@ const ExploreScreens = ({ navigation }) => {
                 setLoading(true)
                 const data = await getAllProperties()
                 // mặc định ban đầu sẽ tải hết dữ liệu
-                setItems(data)
+                setResidencies(data)
                 setResidenciesSearch(data)
-                console.log("ssss")
-                setTimeout(() => {
-                    setLoading(false)
-                }, 100)
+                // setTimeout(() => {
+                //     setLoading(false)
+                // }, 100)
             } catch (error) {
                 console.error(error)
-                console.log(error.message)
             }
         }
         fetchData()
@@ -46,7 +45,7 @@ const ExploreScreens = ({ navigation }) => {
     // Tạo một function component để truyền props
     const ExploreScreenComponent = () => (
         <ExploreScreenContent
-            items={items}
+            items={residencies}
             category={category}
             onDataChange={onDataChange}
             residencySearch={residencySearch}

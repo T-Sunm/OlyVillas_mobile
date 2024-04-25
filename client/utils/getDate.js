@@ -31,3 +31,11 @@ export function convertISOToFormattedDates(startISO, endISO) {
     }
 
 }
+
+export const differenceInDays = (startISO, endISO) => {
+    const millisecondsPerDay = 24 * 60 * 60 * 1000; // Số milliseconds trong một ngày
+    const differenceInMilliseconds = endISO - startISO;
+    const differenceInDays = differenceInMilliseconds / millisecondsPerDay;
+
+    return differenceInDays + 1
+}

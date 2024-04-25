@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { KeyboardAvoidingView, Platform, StyleSheet, Text, View } from 'react-native'
 import React, { useState } from 'react'
 import { COLORS, FONTFAMILY, defaultStyles } from '../../theme/theme'
 import { useNavigation } from '@react-navigation/native'
@@ -14,46 +14,52 @@ const InfoUser = () => {
     console.log(infoUser)
 
     return (
-        <View style={styles.infoHouse} >
-            <Text style={{ fontSize: 19, fontFamily: FONTFAMILY.poppins_semibold }}>
-                Required for your trip
-            </Text>
-            <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
-                <View style={{ flex: 0.7 }}>
+        <KeyboardAvoidingView
+            style={styles.container}
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+        >
+            <View style={styles.infoHouse} >
+                <Text style={{ fontSize: 19, fontFamily: FONTFAMILY.poppins_semibold }}>
+                    Required for your trip
+                </Text>
+                <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+                    <View style={{ flex: 0.7 }}>
+                        <View>
+                            <Text style={{ fontSize: 17, fontFamily: FONTFAMILY.poppins_semibold }}>
+                                Phone number
+                            </Text>
+                            <Text style={{ fontSize: 15, fontFamily: FONTFAMILY.poppins_semibold }} >{infoUser.Phone.formatted}</Text>
+                        </View>
+                        <View  >
+                            <Text style={{ fontSize: 13, fontFamily: FONTFAMILY.poppins_regular }} numberOfLines={2}>
+                                Add and confirm your phone number to get trip updates.
+                            </Text>
+                        </View>
+                    </View>
+                    <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('PhoneScreen')}>
+                        <Text style={{ textDecorationLine: 'underline', fontSize: 15, fontFamily: FONTFAMILY.poppins_semibold }}>
+                            Add
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+                <View>
                     <View>
                         <Text style={{ fontSize: 17, fontFamily: FONTFAMILY.poppins_semibold }}>
-                            Phone number {infoUser.Phone.formatted}
+                            Name
                         </Text>
                     </View>
-                    <View  >
-                        <Text style={{ fontSize: 13, fontFamily: FONTFAMILY.poppins_regular }} numberOfLines={2}>
-                            Add and confirm your phone number to get trip updates.
+                    <CustomInput placeholder={"Name"} onChangeText={setName} type={"Name"} />
+                </View>
+                <View>
+                    <View>
+                        <Text style={{ fontSize: 17, fontFamily: FONTFAMILY.poppins_semibold }}>
+                            Email
                         </Text>
                     </View>
+                    <CustomInput placeholder={"Email"} onChangeText={setEmail} error={emailError} setError={setEmailError} type="Email" />
                 </View>
-                <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('PhoneScreen')}>
-                    <Text style={{ textDecorationLine: 'underline', fontSize: 15, fontFamily: FONTFAMILY.poppins_semibold }}>
-                        Add
-                    </Text>
-                </TouchableOpacity>
-            </View>
-            <View>
-                <View>
-                    <Text style={{ fontSize: 17, fontFamily: FONTFAMILY.poppins_semibold }}>
-                        Name
-                    </Text>
-                </View>
-                <CustomInput placeholder={"Name"} onChangeText={setName} type={"Name"} />
-            </View>
-            <View>
-                <View>
-                    <Text style={{ fontSize: 17, fontFamily: FONTFAMILY.poppins_semibold }}>
-                        Email
-                    </Text>
-                </View>
-                <CustomInput placeholder={"Email"} onChangeText={setEmail} error={emailError} setError={setEmailError} type="Email" />
-            </View>
-        </View>
+            </View >
+        </KeyboardAvoidingView>
     )
 }
 
@@ -65,7 +71,8 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.White,
         padding: 20,
         gap: 10,
-        height: "auto"
+        height: "auto",
+        marginTop: 10
     },
     btn: {
         height: 40,

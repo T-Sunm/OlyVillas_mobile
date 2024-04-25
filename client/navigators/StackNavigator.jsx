@@ -14,9 +14,19 @@ import ListingDetails from '../screens/ListingScreen/ListingDetails';
 import ListingAmenitiesDetails from '../screens/ListingScreen/ListingAmenitiesDetails';
 import ReserveScreen from '../screens/ReserveScreen/ReserveScreen';
 import PhoneScreen from '../screens/ReserveScreen/PhoneScreen';
+import Register from '../screens/Register';
+import { useClerk } from '@clerk/clerk-expo';
+import { useNavigation } from '@react-navigation/native';
 
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
+    const navigation = useNavigation()
+    const { signOut } = useClerk();
+    const handleGobackSignOut = () => {
+        signOut()
+        navigation.goBack()
+    }
+
     return (
 
         <Stack.Navigator >
@@ -35,6 +45,24 @@ const StackNavigator = () => {
                     headerLeft: () => (
                         <TouchableOpacity onPress={() => navigation.goBack()}>
                             <Ionicons name="close" size={24} color="black" />
+                        </TouchableOpacity>
+                    ),
+                })}
+            />
+            <Stack.Screen
+                name='register'
+                component={Register}
+                options={({ navigation }) => ({
+                    animation: "slide_from_bottom",
+                    title: "Complete registration",
+                    presentation: "modal",
+                    headerTitleAlign: "center",
+                    headerTitleStyle: {
+                        fontFamily: FONTFAMILY.poppins_semibold,
+                    },
+                    headerLeft: () => (
+                        <TouchableOpacity onPress={handleGobackSignOut}>
+                            <Ionicons name="arrow-back-outline" size={24} color="black" />
                         </TouchableOpacity>
                     ),
                 })}
