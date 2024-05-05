@@ -7,7 +7,7 @@ export const createRating = asyncHandler(async (req, res) => {
         ResidencyId,
         ReservationId,
         stars,
-        comment,
+        comment = null,
     } = req.body.data;
 
     console.log(req.body)
@@ -23,6 +23,7 @@ export const createRating = asyncHandler(async (req, res) => {
                         userId,
                         ReservationId,
                         stars,
+                        comment
                     }
                 }
             }

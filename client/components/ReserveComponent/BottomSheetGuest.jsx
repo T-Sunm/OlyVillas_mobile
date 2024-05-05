@@ -79,7 +79,7 @@ const BottomSheetGuest = ({ bottomSheetRef, setOpenGuest }) => {
                     </View>
                 ))}
             </View>
-            <Animated.View style={defaultStyles.footer} entering={SlideInDown.delay(200)} >
+            <View style={defaultStyles.footer}>
                 <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
                     <TouchableOpacity style={styles.footerText} onPress={Cancel}>
                         <Text style={styles.footerPrice}>
@@ -98,7 +98,7 @@ const BottomSheetGuest = ({ bottomSheetRef, setOpenGuest }) => {
                         </Text>
                     </TouchableOpacity>
                 </View>
-            </Animated.View>
+            </View>
         </BottomSheet>
     )
 }

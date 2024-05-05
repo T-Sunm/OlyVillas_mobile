@@ -1,5 +1,5 @@
 import { Dimensions, Image, ScrollView, StyleSheet, Text, View } from 'react-native'
-import React, { useCallback, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { COLORS, FONTFAMILY } from '../../theme/theme';
 import { Ionicons } from '@expo/vector-icons';
 import useReserveStore from '../../store/reserveStore';
@@ -8,13 +8,17 @@ import BottomSheetGuest from '../../components/ReserveComponent/BottomSheetGuest
 import InfoUser from '../../components/ReserveComponent/InfoUser';
 import PriceComponent from '../../components/ReserveComponent/PriceComponent';
 import RequestComponent from '../../components/ReserveComponent/RequestComponent';
+import { getReservation } from '../../api/Reservation';
 
 
 
 const windowHeight = Dimensions.get('window').height;
 const ReserveScreen = ({ route }) => {
     const { ResidencyId, title, locationType, placeType, Review, image, price } = route.params;
+
     const [openGuest, setOpenGuest] = useState(false)
+    const [loading, setLoading] = useState()
+    const [reservationResidency, setReservationResidency] = useState()
 
     const bottomSheetRef = useRef(null)
     const handleSnapPress = useCallback((index) => {
@@ -22,6 +26,26 @@ const ReserveScreen = ({ route }) => {
         setOpenGuest(true)
     }, [])
 
+    useEffect(() => {
+        const fetchData = async () => {
+            const params = {
+                ResidencyId: ResidencyId
+            };
+            try {
+                setLoading(true)
+                const data = await getReservation(params)
+                // mặc định ban đầu sẽ tải hết dữ liệu
+                setReservationResidency(data)
+                setTimeout(() => {
+                    setLoading(false)
+                }, 100)
+            } catch (error) {
+                console.error(error)
+            }
+        }
+        fetchData()
+    }, [ResidencyId])
+    console.log(reservationResidency)
     return (
         <>
             <ScrollView style={[styles.root, { opacity: openGuest ? 0.2 : 1 }]}>
@@ -59,10 +83,10 @@ const ReserveScreen = ({ route }) => {
                         </View>
                     </View>
                 </View>
-                <YourTripComponent onSnapPress={handleSnapPress} />
+                <YourTripComponent onSnapPress={handleSnapPress} dataReservation={reservationResidency} />
                 <InfoUser />
                 <PriceComponent price={price} />
-                <RequestComponent />
+                <RequestComponent ResidencyId={ResidencyId} />
             </ScrollView>
             <BottomSheetGuest setOpenGuest={setOpenGuest} bottomSheetRef={bottomSheetRef} />
         </>

@@ -96,7 +96,7 @@ const ListingDetails = ({ route }) => {
                 <View style={styles.infoContainer}>
                     <Text style={styles.name}>{listing?.title}</Text>
                     <Text style={styles?.location}>
-                        {listing?.placeType?.type} in {listing?.mapData?.region ? listing?.mapData?.region + ", " + listing?.mapData?.country : listing?.mapData?.place + ", " + listing?.mapData?.country}
+                        {listing?.placeType?.type} {listing?.locationType?.name.toLowerCase()} in {listing?.mapData?.region ? listing?.mapData?.region + ", " + listing?.mapData?.country : listing?.mapData?.place + ", " + listing?.mapData?.country}
                     </Text>
                     <Text style={styles.rooms}>
                         {listing?.placeSpace?.guetsts?.quantity} guests · {listing?.placeSpace?.bedrooms?.quantity} bedrooms · {listing?.placeSpace?.beds?.quantity} bed ·{' '}

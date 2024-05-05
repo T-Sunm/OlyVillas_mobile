@@ -18,6 +18,7 @@ const useReserveStore = create(subscribeWithSelector((set) => ({
         Name: "",
         Email: "",
     },
+    price: null,
     setRangeDate: (rangeDate) => set({ rangeDate: rangeDate }),
     setGuests: (Guests) => set({ Guests: Guests }),
     setName: (name) => set(state => ({ infoUser: { ...state.infoUser, Name: name } })),
@@ -30,7 +31,8 @@ const useReserveStore = create(subscribeWithSelector((set) => ({
                 [type]: phone,
             }
         }
-    }))
+    })),
+    setPrice: (price) => set({ price: price }),
 })));
 
 export default useReserveStore

@@ -5,7 +5,6 @@ export const api = axios.create({
 })
 
 export const getRatingByResidency = async (ResidencyId) => {
-
     try {
         const response = await api.get("user/getRatingByResidency", {
             params: { ResidencyId }
@@ -15,6 +14,15 @@ export const getRatingByResidency = async (ResidencyId) => {
         }
         console.log(response.data)
         return response.data
+    } catch (error) {
+        console.log(error)
+        throw error
+    }
+}
+
+export const createRating = async (data) => {
+    try {
+        const result = await api.post('user/createRating', { data })
     } catch (error) {
         console.log(error)
         throw error
