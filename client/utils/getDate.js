@@ -32,10 +32,73 @@ export function convertISOToFormattedDates(startISO, endISO) {
 
 }
 
+
 export const differenceInDays = (startISO, endISO) => {
     const millisecondsPerDay = 24 * 60 * 60 * 1000; // Số milliseconds trong một ngày
-    const differenceInMilliseconds = endISO - startISO;
-    const differenceInDays = differenceInMilliseconds / millisecondsPerDay;
 
-    return differenceInDays + 1
+    // Chuyển chuỗi ISO thành đối tượng Date
+    const startDate = new Date(startISO);
+    const endDate = new Date(endISO);
+
+    // Tính toán chênh lệch millisecond
+    const differenceInMilliseconds = endDate.getTime() - startDate.getTime();
+
+    // Tính số ngày chênh lệch
+    let differenceInDays = Math.ceil(differenceInMilliseconds / millisecondsPerDay);
+
+    // Nếu ngày chênh lệch bằng 0, trả về 1 ngày
+    differenceInDays = differenceInDays === 0 ? 1 : differenceInDays;
+
+    // Nếu số ngày chênh lệch nhỏ hơn 0, trả về 0
+    return Math.max(differenceInDays, 0);
+}
+
+export function formatDateRange(startDateString, endDateString) {
+    // Tạo đối tượng Date từ chuỗi định dạng ISO
+    const startDate = new Date(startDateString);
+    const endDate = new Date(endDateString);
+
+    // Kiểm tra xem liệu Date có hợp lệ không
+    if (isNaN(startDate) || isNaN(endDate)) {
+        return "Invalid Date Range";
+    }
+
+    const startDay = startDate.getDate();
+    const startMonth = startDate.toLocaleString('en-US', { month: 'short' });
+    const startYear = startDate.getFullYear();
+
+    const endDay = endDate.getDate();
+    const endMonth = endDate.toLocaleString('en-US', { month: 'short' });
+    const endYear = endDate.getFullYear();
+
+    // Trường hợp 1: Cùng tháng, cùng năm
+    if (startMonth === endMonth && startYear === endYear) {
+        return `${startMonth} ${startDay} - ${endDay} ${startYear}`;
+    }
+    // Trường hợp 2: Khác tháng, cùng năm
+    else if (startYear === endYear) {
+        return `${startMonth} ${startDay} - ${endMonth} ${endDay} ${startYear}`;
+    }
+    // Trường hợp 3: Khác năm
+    else {
+        return `${startMonth} ${startDay} ${startYear} - ${endMonth} ${endDay} ${endYear}`;
+    }
+}
+
+export function formatDateRange2(startDate, endDate) {
+    // Chuyển chuỗi ngày tháng sang đối tượng Date
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    // Định dạng ngày tháng
+    const options = { weekday: 'short', month: 'short', day: '2-digit', year: 'numeric' };
+
+    const formattedStartDate = start.toLocaleDateString('en-US', options); // Định dạng ngày bắt đầu
+    const formattedEndDate = end.toLocaleDateString('en-US', options); // Định dạng ngày kết thúc
+
+    // Tạo ra chuỗi định dạng cuối cùng
+    return {
+        checkIn: formattedStartDate,
+        checkOut: formattedEndDate
+    };
 }

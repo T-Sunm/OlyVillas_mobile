@@ -28,7 +28,8 @@ export const COLORS = {
     WhiteRGBA50: "rgba(255,255,255,0.50)",
     WhiteRGBA32: "rgba(255, 255, 255, 0.32)",
     WhiteRGBA15: "rgba(255, 255, 255, 0.15)",
-    WhiteGrey: "#5E5D5E"
+    WhiteGrey: "#5E5D5E",
+    Turquoise: "#00C5B7"
 }
 
 export const FONTFAMILY = {

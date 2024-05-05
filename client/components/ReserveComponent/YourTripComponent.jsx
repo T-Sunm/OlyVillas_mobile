@@ -5,7 +5,7 @@ import { DatePickerModal } from 'react-native-paper-dates'
 import { COLORS, FONTFAMILY } from '../../theme/theme';
 import { convertISOToFormattedDates } from '../../utils/getDate';
 
-const YourTripComponent = ({ onSnapPress }) => {
+const YourTripComponent = ({ onSnapPress, dataReservation }) => {
     const { setRangeDate } = useReserveStore()
     const { rangeDate, Guests } = useReserveStore(state => state)
     const [openDate, setOpenDate] = useState(false);
@@ -23,6 +23,27 @@ const YourTripComponent = ({ onSnapPress }) => {
     const onDismiss = useCallback(() => {
         setOpenDate(false);
     }, [setOpenDate]);
+
+    const validRange = {
+        disabledDates: []
+    };
+
+    if (dataReservation) {
+        dataReservation?.forEach(item => {
+            if (item.Status !== "Cancel Reservations") {
+                const startDate = new Date(item.startDate);
+                const endDate = new Date(item.endDate);
+
+                // Thêm từng ngày vào mảng disabledDates
+                let currentDate = startDate;
+                while (currentDate <= endDate) {
+                    validRange.disabledDates.push(new Date(currentDate));
+                    // Tăng thêm một ngày
+                    currentDate.setDate(currentDate.getDate() + 1);
+                }
+            }
+        });
+    }
 
     return (
         <>
@@ -77,6 +98,7 @@ const YourTripComponent = ({ onSnapPress }) => {
                 endDate={rangeDate.endDate}
                 onDismiss={onDismiss}
                 onConfirm={onConfirm}
+                validRange={validRange}
             />
 
         </>

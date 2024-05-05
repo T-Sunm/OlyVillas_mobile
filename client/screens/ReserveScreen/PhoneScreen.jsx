@@ -42,8 +42,6 @@ const PhoneScreen = () => {
         navigation.goBack()
     }
 
-
-
     return (
 
         <>

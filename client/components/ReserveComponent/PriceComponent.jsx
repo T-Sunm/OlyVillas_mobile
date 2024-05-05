@@ -1,19 +1,24 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { COLORS, FONTFAMILY } from '../../theme/theme'
 import { differenceInDays } from '../../utils/getDate'
 import useReserveStore from '../../store/reserveStore'
 
 const PriceComponent = ({ price }) => {
 
-    const { rangeDate } = useReserveStore()
+    const { rangeDate, setPrice } = useReserveStore()
 
     const PriceDays = useMemo(() => {
         return (price * differenceInDays(rangeDate.startDate, rangeDate.endDate)).toFixed(2)
-    }, [price])
+    }, [price, rangeDate])
     const Fees = useMemo(() => {
         return (price * differenceInDays(rangeDate.startDate, rangeDate.endDate) * 0.14).toFixed(2)
     }, [price])
+
+    useEffect(() => {
+        const totalPrice = parseFloat(Fees) + parseFloat(PriceDays);
+        setPrice(parseFloat(totalPrice.toFixed(2)));
+    }, [Fees, PriceDays]);
     return (
         <View style={styles.infoHouse}>
             <Text style={{ fontSize: 19, fontFamily: FONTFAMILY.poppins_semibold }}>Price details</Text>
@@ -21,7 +26,7 @@ const PriceComponent = ({ price }) => {
                 <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                     <View>
                         <Text style={{ fontSize: 15, fontFamily: FONTFAMILY.poppins_regular }}>
-                            ${price} x {differenceInDays(rangeDate.startDate, rangeDate.endDate)} nights
+                            ${price} x {differenceInDays(rangeDate.startDate, rangeDate.endDate).toFixed(0)} nights
                         </Text>
                     </View>
                     <View>

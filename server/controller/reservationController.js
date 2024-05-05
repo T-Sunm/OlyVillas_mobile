@@ -37,7 +37,8 @@ export const createReservation = asyncHandler(async (req, res) => {
 });
 
 export const getReservations = asyncHandler(async (req, res) => {
-  const { ResidencyId, userId, authorEmail } = req.body.params
+  const { ResidencyId, userId, authorEmail } = req.body.params || {}
+
 
   console.log(userId)
 
@@ -56,8 +57,21 @@ export const getReservations = asyncHandler(async (req, res) => {
       where: query,
       include: {
         Residency: {
-          include: {
+          select: {
+            title: true,
+            price: true,
+            locationType: true,
+            placeType: true,
+            mapData: true,
             photos: true,
+            createdAt: true,
+            owner: {
+              select: {
+                firstName: true,
+                lastName: true,
+                email: true
+              }
+            }
           }
         },
         Rating: true
@@ -99,12 +113,25 @@ export const getDetailsReservation = async (req, res) => {
       },
       include: {
         Residency: {
-          include: {
+          select: {
+            title: true,
+            price: true,
+            locationType: true,
+            placeType: true,
+            mapData: true,
             photos: true,
+            createdAt: true,
+            owner: {
+              select: {
+                firstName: true,
+                lastName: true,
+                email: true
+              }
+            }
           }
         },
         Rating: true
-      },
+      }
     });
 
     if (reservation) {

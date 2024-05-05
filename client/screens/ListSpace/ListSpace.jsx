@@ -1,14 +1,14 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
-const Trips = () => {
+const ListSpace = () => {
     return (
         <View>
-            <Text>Trips</Text>
+            <Text>ListSpace</Text>
         </View>
     )
 }
 
-export default Trips
+export default ListSpace
 
 const styles = StyleSheet.create({})
