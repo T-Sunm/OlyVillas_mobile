@@ -129,3 +129,13 @@ export const SvgAllAmenities = [
     { name: "Waterfront", svgPath: <Waterfront width="40" height="40" />, group: "LocationFeatures" },
     { name: "Extra pillows and blankets", svgPath: <ExPilBlank width="40" height="40" />, group: "BedroomandLaundry" },
 ]
+
+export function convertAmentitiesData(data){
+    const newData = []
+    data.forEach((item) => {
+        if (!newData[item.group]) {
+            newData[item.group] = [];
+        }
+      });
+      return newData;
+}

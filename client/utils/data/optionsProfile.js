@@ -34,8 +34,13 @@ export const optionsProfile = [
 
 export const optionsHosting = [
     {
-        label: "List your space",
+        label: "Become a host",
         icon: <FontAwesome6 name="house-chimney-medical" size={24} color="black" />,
+        navigationName: "BecomeHost"
+    },
+    {
+        label: "List your space",
+        icon: <FontAwesome6 name="building" size={24} color="black" />,
         navigationName: "ListSpace"
     },
     {
