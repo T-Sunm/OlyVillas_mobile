@@ -5,6 +5,9 @@ import HostBottomBar from "../../../components/HostComponents/HostBottomBar";
 
 const RoomNumber = ({ route }) => {
   const { data } = route.params;
+  React.useEffect(() => {
+    console.log(data);
+  }, []);
 
   const [bedrooms, setBedrooms] = useState(0);
   const [beds, setBeds] = useState(0);

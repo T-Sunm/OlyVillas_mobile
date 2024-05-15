@@ -13,6 +13,7 @@ import { FONTFAMILY } from "../../../theme/theme";
 import HostBottomBar from "../../../components/HostComponents/HostBottomBar";
 
 const ConfirmLocation = ({ route }) => {
+  
   const [data, setData] = useState(route.params.data);
   const [street_address, setStreetAddress] = useState(
     data.mapData.street_address
@@ -22,7 +23,9 @@ const ConfirmLocation = ({ route }) => {
   const [place, setPlace] = useState(data.mapData.place);
   const [postcode, setPostcode] = useState(data.mapData.postcode);
   const [country, setCountry] = useState(data.mapData.country);
-
+  React.useEffect(() => {
+    console.log(data);
+  }, []);
   return (
     <View style={{ backgroundColor: "#fdffff", flex: 1 }}>
       <KeyboardAvoidingView
@@ -164,7 +167,7 @@ const ConfirmLocation = ({ route }) => {
       </ScrollView>
       </KeyboardAvoidingView>
       <HostBottomBar
-        isDisable={false}
+        isDisable={country === "" || street_address === "" || district === "" || place === ""}
         data={{ ...data }}
         navigationTarget={"RoomNumber"}
         />

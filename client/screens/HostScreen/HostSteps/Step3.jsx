@@ -3,7 +3,7 @@ import React from "react";
 import { FONTFAMILY } from "../../../theme/theme";
 import HostBottomBar from "../../../components/HostComponents/HostBottomBar";
 
-const Step2 = ({ route }) => {
+const Step3 = ({ route }) => {
   const { data } = route.params;
   React.useEffect(() => {
     console.log(data);
@@ -12,20 +12,19 @@ const Step2 = ({ route }) => {
     <View style={styles.container}>
       <View style={styles.imgContainer}>
         <Image
-          source={{ uri: "https://s4.ezgif.com/tmp/ezgif-4-18f6282d1e.gif" }}
+          source={{ uri: "https://s5.ezgif.com/tmp/ezgif-5-a14064c1af.gif" }}
           style={styles.img}
         />
       </View>
       <View>
-        <Text style={styles.stepText}>Step 2</Text>
-        <Text style={styles.titleText}>Make your place stand out</Text>
+        <Text style={styles.stepText}>Step 3</Text>
+        <Text style={styles.titleText}>Finish up and publish</Text>
         <Text style={styles.descriptionText}>
-          In this step, you’ll add some of the amenities your place offers, plus
-          5 or more photos. Then you’ll create a title and description.
+        Finally, you’ll choose booking settings, set up pricing and publish your listing.
         </Text>
       </View>
       <HostBottomBar
-        navigationTarget={"SelectAmetities"}
+        navigationTarget={"SetThePrice"}
         data={{...data}}
         isDisable={false}
       />
@@ -33,7 +32,7 @@ const Step2 = ({ route }) => {
   );
 };
 
-export default Step2;
+export default Step3;
 
 const styles = StyleSheet.create({
   container: {

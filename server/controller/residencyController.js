@@ -346,6 +346,7 @@ export const updateImage = asyncHandler(async (req, res) => {
 
   } catch (error) {
     // Xử lý các loại lỗi khác nhau
+    console.log(error)
     if (error.message.startsWith('Error uploading image:')) {
       res.status(500).send({ error: error.message });
     } else {

@@ -13,6 +13,9 @@ import HostBottomBar from "../../../components/HostComponents/HostBottomBar";
 
 const SelectAmetities = ({route}) => {
   const { data } = route.params;
+  React.useEffect(() => {
+    console.log(data);
+  }, []);
   const [amities, setAmities] = useState(convertAmentitiesData(SvgAllAmenities));
   const [isDisabled, setIsDisabled] = useState(true);
 

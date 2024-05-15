@@ -6,6 +6,9 @@ import { ListingType } from "../../../utils/iconBnb";
 
 const SelectPlaceType = ({ route }) => {
   const { data } = route.params;
+  React.useEffect(() => {
+    console.log(data);
+  }, []);
   const [selected, setSelected] = useState({ type: "", id: 0 });
   return (
     <View style={styles.container}>

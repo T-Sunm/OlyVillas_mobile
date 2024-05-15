@@ -69,7 +69,7 @@ const SelectLocationType = () => {
         numColumns={2}
         keyExtractor={(item) => item.name}
       />
-      <HostBottomBar data={{LocationType: {name: selectedType.name, parentId: selectedType.parentId}}} navigationTarget={'SelectPlaceType'} isDisable={selectedType.name == "" ? true : false}/>
+      <HostBottomBar data={{locationType: {name: selectedType.name, parentId: selectedType.parentId}}} navigationTarget={'SelectPlaceType'} isDisable={selectedType.name == "" ? true : false}/>
     </View>
   );
 };

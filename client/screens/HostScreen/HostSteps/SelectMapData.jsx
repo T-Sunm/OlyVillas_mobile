@@ -20,6 +20,9 @@ import { useNavigation } from "@react-navigation/native";
 
 const SelectMapData = ({ route }) => {
   const { data } = route.params;
+  React.useEffect(() => {
+    console.log(data);
+  }, []);
   const [modalVisible, setModalVisible] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -63,7 +66,7 @@ const SelectMapData = ({ route }) => {
         transparent={true}
         onRequestClose={() => setModalVisible(!modalVisible)}
       >
-        <KeyboardAvoidingView style={styles.ModalContainer}>
+        <View style={styles.ModalContainer}>
           <View style={styles.ModalHeader}>
             <Pressable
               style={{ position: "absolute", top: 4, left: 20, padding: 5 }}
@@ -107,7 +110,7 @@ const SelectMapData = ({ route }) => {
                   style={styles.searchResult}
                   onPress={ async () => {
                     const loc = await getLocationDetail(result.place_id)
-                    const data = {...data, mapData: {
+                    const newData = {...data, mapData: {
                       address_extra: "",
                       country: "",
                       district: loc.compound.district,
@@ -119,7 +122,8 @@ const SelectMapData = ({ route }) => {
                       lat: loc.geometry.location.lat,
                       lng: loc.geometry.location.lng,
                     }}
-                    navigation.navigate("ConfirmLocation", {data})
+                    setModalVisible(!modalVisible)  
+                    navigation.navigate("ConfirmLocation", {data: newData})
                   }}
                 >
                   <FontAwesome6 name="building" size={18} color="black" />
@@ -132,7 +136,7 @@ const SelectMapData = ({ route }) => {
                 </Pressable>
               ))}
           </View>
-        </KeyboardAvoidingView>
+        </View>
       </Modal>
       <View style={styles.TitleContainer}>
         <Text

@@ -30,6 +30,11 @@ import RoomNumber from "../screens/HostScreen/HostSteps/RoomNumber";
 import Step2 from "../screens/HostScreen/HostSteps/Step2";
 import SelectAmetities from "../screens/HostScreen/HostSteps/SelectAmetities";
 import AddPhotos from "../screens/HostScreen/HostSteps/AddPhotos"
+import AddTitle from "../screens/HostScreen/HostSteps/AddTitle";
+import AddDecs from "../screens/HostScreen/HostSteps/AddDesc";
+import Step3 from "../screens/HostScreen/HostSteps/Step3";
+import SetThePrice from "../screens/HostScreen/HostSteps/SetThePrice";
+import FinishUp from "../screens/HostScreen/FinishUp";
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
   const navigation = useNavigation();
@@ -402,6 +407,115 @@ const StackNavigator = () => {
           <Text>Exit</Text>
         </TouchableOpacity>
       ),
+    }}
+  />
+   <Stack.Screen
+    name="AddTitle"
+    component={AddTitle}
+    options={{
+      animation: "slide_from_right",
+      headerTitle: "",
+      headerBackground: () => (
+        <View style={{ backgroundColor: "#FDFFFF" }} />
+      ),
+      headerLeft: () => (
+        <TouchableOpacity
+          style={{
+            borderWidth: 0.5,
+            borderColor: "rgba(80, 80, 80, .5)",
+            paddingHorizontal: 16,
+            paddingVertical: 12,
+            borderRadius: 20,
+          }}
+          onPress={() => navigation.navigate('profile')}
+        >
+          <Text>Exit</Text>
+        </TouchableOpacity>
+      ),
+    }}
+  />
+   <Stack.Screen
+    name="AddDecs"
+    component={AddDecs}
+    options={{
+      animation: "slide_from_right",
+      headerTitle: "",
+      headerBackground: () => (
+        <View style={{ backgroundColor: "#FDFFFF" }} />
+      ),
+      headerLeft: () => (
+        <TouchableOpacity
+          style={{
+            borderWidth: 0.5,
+            borderColor: "rgba(80, 80, 80, .5)",
+            paddingHorizontal: 16,
+            paddingVertical: 12,
+            borderRadius: 20,
+          }}
+          onPress={() => navigation.navigate('profile')}
+        >
+          <Text>Exit</Text>
+        </TouchableOpacity>
+      ),
+    }}
+  />
+   <Stack.Screen
+    name="Step3"
+    component={Step3}
+    options={{
+      animation: "slide_from_right",
+      headerTitle: "",
+      headerBackground: () => (
+        <View style={{ backgroundColor: "#FDFFFF" }} />
+      ),
+      headerLeft: () => (
+        <TouchableOpacity
+          style={{
+            borderWidth: 0.5,
+            borderColor: "rgba(80, 80, 80, .5)",
+            paddingHorizontal: 16,
+            paddingVertical: 12,
+            borderRadius: 20,
+          }}
+          onPress={() => navigation.navigate('profile')}
+        >
+          <Text>Exit</Text>
+        </TouchableOpacity>
+      ),
+    }}
+  />
+   <Stack.Screen
+    name="SetThePrice"
+    component={SetThePrice}
+    options={{
+      animation: "slide_from_right",
+      headerTitle: "",
+      headerBackground: () => (
+        <View style={{ backgroundColor: "#FDFFFF" }} />
+      ),
+      headerLeft: () => (
+        <TouchableOpacity
+          style={{
+            borderWidth: 0.5,
+            borderColor: "rgba(80, 80, 80, .5)",
+            paddingHorizontal: 16,
+            paddingVertical: 12,
+            borderRadius: 20,
+          }}
+          onPress={() => navigation.navigate('profile')}
+        >
+          <Text>Exit</Text>
+        </TouchableOpacity>
+      ),
+    }}
+  />
+   <Stack.Screen
+    name="FinishUp"
+    component={FinishUp}
+    options={{
+      animation: "slide_from_right",
+      headerTitle: "",
+      header: () => null,
     }}
   />
     </Stack.Navigator>

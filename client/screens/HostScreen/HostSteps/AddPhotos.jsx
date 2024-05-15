@@ -1,12 +1,15 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import { FlatListComponent, StyleSheet, Text, View } from "react-native";
+import React, { useState } from "react";
 import HostBottomBar from "../../../components/HostComponents/HostBottomBar";
 import { FONTFAMILY } from "../../../theme/theme";
 import ImagePickerComponent from "../../../components/HostComponents/ImagePickerComponent";
 
 const AddPhotos = ({ route }) => {
   const { data } = route.params;
-  console.log(data);
+  const [images, setImages] = useState([]);
+  React.useEffect(() => {
+    console.log(data);
+  }, []);
   return (
     <View style={styles.container}>
       <View>
@@ -20,22 +23,32 @@ const AddPhotos = ({ route }) => {
           >
             Add some photos of your house
           </Text>
-          <Text   
+          <Text
             style={{
               fontSize: 16,
               fontFamily: FONTFAMILY.poppins_regular,
               color: "#8a8a8a",
             }}
           >
-            You'll need 5 photos to get started. You can add more or make changes later.
+            You'll need 5 photos to get started. You can add more or make
+            changes later.
           </Text>
         </View>
         <View style={styles.ImageContainer}>
-          <Text>Image Picker</Text>
-          <ImagePickerComponent />
-          </View>
+          <ImagePickerComponent images={images} setImages={setImages} />
+        </View>
       </View>
-      <HostBottomBar />
+      <HostBottomBar
+        data={{
+          ...data,
+          photos: images.map(
+            (img) => `data:${img.mimeType};base64,${img.base64}`
+            // (img) => img.fileName
+          ),
+        }}
+        isDisable={images.length < 5 ? true : FlatListComponent}
+        navigationTarget={"AddTitle"}
+      />
     </View>
   );
 };
@@ -48,6 +61,5 @@ const styles = StyleSheet.create({
     backgroundColor: "#fdffff",
     paddingHorizontal: 20,
   },
-  ImageContainer: {
-  }
+  ImageContainer: {},
 });
