@@ -9,6 +9,7 @@ import ListingBottomSheet from '../components/ListingBottomSheet'
 import useSearchStore from '../store/searchStore'
 import useResidenciesSearchStore from '../store/ResidencySearch'
 import useResidenciesStore from '../store/residencyStore'
+import axios from 'axios'
 const Stack = createNativeStackNavigator();
 const ExploreScreens = ({ navigation }) => {
     const Stack = createNativeStackNavigator();
