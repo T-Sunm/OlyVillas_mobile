@@ -35,6 +35,7 @@ import AddDecs from "../screens/HostScreen/HostSteps/AddDesc";
 import Step3 from "../screens/HostScreen/HostSteps/Step3";
 import SetThePrice from "../screens/HostScreen/HostSteps/SetThePrice";
 import FinishUp from "../screens/HostScreen/FinishUp";
+import EditListing from "../screens/EditListing/EditListing";
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
   const navigation = useNavigation();
@@ -516,6 +517,22 @@ const StackNavigator = () => {
       animation: "slide_from_right",
       headerTitle: "",
       header: () => null,
+    }}
+  />
+   <Stack.Screen
+    name="EditListing"
+    component={EditListing}
+    options={{
+      animation: "slide_from_right",
+      headerTitle: "Listing Editor ",
+      headerTitleAlign: "center",
+      headerTransparent: false,
+     headerLeft: () => (
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Ionicons name="arrow-back-outline" size={24} color="black" />
+        </TouchableOpacity>
+      ),
+      
     }}
   />
     </Stack.Navigator>
