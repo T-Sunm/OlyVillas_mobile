@@ -12,9 +12,7 @@ import { getAllProperties } from '../api/Residency'
 import useResidenciesSearchStore from '../store/ResidencySearch'
 
 const ListingsMap = ({ items }) => {
-    const { setLocationData } = useSearchStore()
-    const { setResidenciesSearch } = useResidenciesSearchStore()
-    const { locationData } = useSearchStore(state => state);
+    const { setLocationData, setMapData, locationData } = useSearchStore()
     const [loading, setLoading] = useState()
     const navigation = useNavigation()
     const mapRef = useRef(null)
@@ -31,42 +29,25 @@ const ListingsMap = ({ items }) => {
         }
     };
 
-    const selectLocation = async (loca) => {
-        let mapData = {
-            place: loca.compound.province,
-            // district: loca.compound.district
-        };
-
-        setLocationData({
-            latitude: loca.coord.lat,
-            longitude: loca.coord.lng,
-            latitudeDelta: 0.05,
-            longitudeDelta: 0.05,
-        });
+    const selectLocation = (loca) => {
+        setTimeout(() => {
+            let mapData = {
+                place: loca.compound.province,
+            };
+            useSearchStore.setState((state) => ({
+                mapData: {
+                    place: loca.compound.province,
+                },
+                locationData: {
+                    latitude: loca.coord.lat,
+                    longitude: loca.coord.lng,
+                    latitudeDelta: 0.05,
+                    longitudeDelta: 0.05,
+                }
+            }));
+        }, 1000)
 
         zoomToLocation(loca.coord)
-
-        const fetchData = async () => {
-            let params = {
-                mapData
-            }
-
-            try {
-                setLoading(true)
-                const data = await getAllProperties(params)
-
-                // GỌI hàm set này là bị re-render map , htai chua biet cach fix
-                setResidenciesSearch(data)
-
-                setTimeout(() => {
-                    setLoading(false)
-                }, 100)
-            } catch (error) {
-                console.error(error)
-            }
-        }
-        await fetchData()
-
 
     };
 

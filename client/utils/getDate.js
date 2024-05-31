@@ -53,6 +53,22 @@ export const differenceInDays = (startISO, endISO) => {
     return Math.max(differenceInDays, 0);
 }
 
+export const differenceInDays_for_YourReservation = (startISO, endISO) => {
+    const millisecondsPerDay = 24 * 60 * 60 * 1000; // Số milliseconds trong một ngày
+
+    // Chuyển chuỗi ISO thành đối tượng Date
+    const startDate = new Date(startISO);
+    const endDate = new Date(endISO);
+
+    // Tính toán chênh lệch millisecond
+    const differenceInMilliseconds = endDate - startDate; // Bỏ qua .getTime() vì phép trừ date trong JS tự động chuyển thành milliseconds
+
+    // Tính số ngày chênh lệch, sử dụng round để có tính toán chính xác hơn
+    let differenceInDays = Math.round(differenceInMilliseconds / millisecondsPerDay);
+
+    return differenceInDays;
+}
+
 export function formatDateRange(startDateString, endDateString) {
     // Tạo đối tượng Date từ chuỗi định dạng ISO
     const startDate = new Date(startDateString);

@@ -10,24 +10,33 @@ import FilterWhereComponent from '../components/BookingComponents/FilterWhereCom
 import FilterWhenComponent from '../components/BookingComponents/FilterWhenComponent';
 import FilterWhoComponent from '../components/BookingComponents/FilterWhoComponent';
 import { convertISOToFormattedDates } from '../utils/getDate';
+import useSearchStore from '../store/searchStore';
 
 
 const Booking = ({ navigation }) => {
-
-
-
-    const handleClearAll = () => {
-
-    };
-    handleSearch = () => {
-
-    }
 
     const [previewData, setPreviewData] = useState(initialPreviewData);
     const [openCard, setOpenCard] = useState(0)
     const [selectedPlace, setSelectedPlace] = useState(0)
     const [range, setRange] = useState({ startDate: null, endDate: null });
     const [groups, setGroups] = useState(guestsGropus)
+    const { setRangeDate, setGuestCount } = useSearchStore(state => state);
+
+    const handleClearAll = () => {
+        setRange({ startDate: null, endDate: null })
+        setGroups(guestsGropus)
+    };
+
+    const handleSearch = () => {
+        const totalGuest = groups.reduce((acc, item) => {
+            if (item.name !== "Infants" && item.name !== "Pets") {
+                return acc + item.count;
+            }
+            return acc;
+        }, 0);
+        setRangeDate(range.startDate, range.endDate)
+        setGuestCount(totalGuest)
+    }
 
     useEffect(() => {
         let newPreviewData = [...previewData];
@@ -93,7 +102,7 @@ const Booking = ({ navigation }) => {
                 </View>
             ))}
             {/* Footer */}
-            <Footer onClearAll={handleClearAll} navigation={navigation} />
+            <Footer onClearAll={handleClearAll} navigation={navigation} onSearch={handleSearch} />
         </View>
     )
 }

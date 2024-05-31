@@ -4,7 +4,13 @@ import Animated, { SlideInDown } from 'react-native-reanimated'
 import { Ionicons } from '@expo/vector-icons'
 import { COLORS, FONTFAMILY, defaultStyles } from '../../theme/theme'
 
-const Footer = ({ onClearAll, navigation }) => {
+const Footer = ({ onClearAll, navigation, onSearch }) => {
+
+    const handleSearch = () => {
+        onSearch()
+        navigation.goBack()
+    }
+
     return (
         <Animated.View style={defaultStyles.footer} entering={SlideInDown.delay(200)}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -13,7 +19,7 @@ const Footer = ({ onClearAll, navigation }) => {
                         Clear all
                     </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[defaultStyles.btn, styles.btnSearch]} onPress={() => navigation.goBack()} >
+                <TouchableOpacity style={[defaultStyles.btn, styles.btnSearch]} onPress={handleSearch} >
                     <Ionicons name='search-outline' size={24} style={{}} color={COLORS.White} />
                     <Text style={defaultStyles.btnText} >
                         Search

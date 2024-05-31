@@ -4,6 +4,7 @@ import { SimpleLineIcons } from '@expo/vector-icons';
 import LoginSecurity from "../../assets/svg/Settings/LoginSecurity";
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome6 } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 export const header = [
     {
         label: 'Settings',
@@ -44,7 +45,14 @@ export const optionsHosting = [
         navigationName: "ListSpace"
     },
     {
-        label: "Chart", icon: <FontAwesome6 name="chart-line" size={24} color="black" />,
+        label: "Your reservation",
+        icon: <MaterialCommunityIcons name="calendar-check" size={24} color="black" />,
+        navigationName: "YourReservation"
+    },
+    {
+        label: "Chart",
+        icon: <FontAwesome6 name="chart-line" size={24} color="black" />,
+        navigationName: "chart"
     },
 ]
 export const optionsSupport = [

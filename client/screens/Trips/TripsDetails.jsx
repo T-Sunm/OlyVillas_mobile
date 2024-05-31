@@ -8,7 +8,7 @@ import { FontAwesome6 } from '@expo/vector-icons';
 import { formatDateRange2 } from '../../utils/getDate';
 import Animated, { SlideInDown } from 'react-native-reanimated';
 import StarRating from '../../components/Star/StarRating';
-import { getDetailsReservation } from '../../api/Reservation';
+import { deleteReservation, getDetailsReservation, updateReservation } from '../../api/Reservation';
 import useUserStore from '../../store/User';
 import { createRating } from '../../api/Rating';
 import Star from '../../components/Star/Star';
@@ -37,7 +37,7 @@ const Guests = [
 ]
 
 const TripsDetails = ({ route }) => {
-    const { id } = route.params;
+    const { id, isAdmin = false } = route.params;
 
     const [loading, setLoading] = useState(false)
     const [item, setItem] = useState()
@@ -91,6 +91,7 @@ const TripsDetails = ({ route }) => {
 
 
     const formattedDates = useMemo(() => formatDateRange2(item?.startDate, item?.endDate), [item]);
+
     if (item) {
         Guests.forEach(guest => {
             const title = guest.title;
@@ -99,6 +100,23 @@ const TripsDetails = ({ route }) => {
             }
         });
     }
+
+    const handleCancelReservation = async (id) => {
+        setLoading(true)
+        const data = deleteReservation(id)
+        setTimeout(() => {
+            setLoading(false);
+        }, 1000);
+    }
+
+    const handleAcceptReservation = async (id) => {
+        setLoading(true)
+        const data = updateReservation(id)
+        setTimeout(() => {
+            setLoading(false);
+        }, 1000);
+    }
+
     return (
         <>
             <ScrollView
@@ -256,18 +274,32 @@ const TripsDetails = ({ route }) => {
             </ScrollView>
 
             {item?.Status == "Pending" && (
-                <Animated.View style={defaultStyles.footer} entering={SlideInDown.delay(200)} >
-                    <View style={{}}>
-                        <TouchableOpacity style={[defaultStyles.btn, { paddingHorizontal: 10 }]}>
+                <Animated.View style={[defaultStyles.footer,]} entering={SlideInDown.delay(200)} >
+                    <View style={{ flexDirection: "row", justifyContent: "space-between", gap: 5 }}>
+                        <TouchableOpacity
+                            style={[defaultStyles.btn, { paddingHorizontal: 10, flex: 1, backgroundColor: COLORS.Black }]}
+                            onPress={() => handleCancelReservation(item?.id)}
+                        >
                             <Text style={defaultStyles.btnText}>
                                 Cancel reserve
                             </Text>
                         </TouchableOpacity>
+                        {isAdmin && (
+                            <TouchableOpacity
+                                style={[defaultStyles.btn, { paddingHorizontal: 10, flex: 1 }]}
+                                onPress={() => handleAcceptReservation(item?.id)}
+                            >
+                                <Text style={defaultStyles.btnText}>
+                                    Accept
+                                </Text>
+                            </TouchableOpacity>
+                        )}
                     </View>
+
                 </Animated.View>
             )}
 
-            {item?.Status === "Success" &&
+            {item?.Status === "Success" && !isAdmin &&
                 <BottomSheetRating onRating={handleRating} rating={rating} comment={comment} />
             }
         </>

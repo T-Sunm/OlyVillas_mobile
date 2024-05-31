@@ -60,12 +60,17 @@ export const createResidency = asyncHandler(async (req, res) => {
 });
 
 export const getAllResidencies = asyncHandler(async (req, res) => {
+  const { guestCount, startDate, endDate, authorEmail, locationType } = req.body
 
-  let query = {}
 
+  const { page = 1 } = req.query
+  console.log(locationType)
 
-  const { placeSpace, mapData, startDate, endDate, authorEmail } = req.body
+  const limit = 10
+  // Tính toán số lượng bản ghi bỏ qua
+  const skip = (page - 1) * limit; // 'page' bắt đầu từ 1
 
+  const query = {}
 
   if (authorEmail) {
     query.userEmail = authorEmail
@@ -113,31 +118,70 @@ export const getAllResidencies = asyncHandler(async (req, res) => {
       orderBy: {
         createdAt: "desc",
       },
+      skip: skip,
+      take: limit
     });
 
     let filteredResidencies = residencies
-    if (mapData) {
-      filteredResidencies = filteredResidencies.filter(residency => {
-        return Object.keys(mapData).every(key => {
-          if (mapData[key]) {
-            return residency.mapData?.[key] === mapData[key];
-          }
-          return true;
-        });
-      });
-    }
+    filteredResidencies = filteredResidencies.filter(residency => {
+      // Kiểm tra điều kiện về số lượng khách
+      const isGuestCountValid = guestCount ? residency.placeSpace?.guetsts?.quantity === guestCount : true;
 
-    if (placeSpace) {
-      filteredResidencies = filteredResidencies.filter(residency => {
-        return Object.keys(placeSpace).every(key => {
-          if (placeSpace[key].quantity !== 0) {
-            return residency.placeSpace?.[key].quantity === placeSpace[key].quantity
-          }
-          return true
-        })
-      })
-    }
+      // Kiểm tra điều kiện về loại địa điểm
+      // Chỉ kiểm tra nếu locationType được cung cấp
+      const isLocationTypeValid = locationType ? residency.locationType?.name === locationType : true;
+
+      return isGuestCountValid && isLocationTypeValid;
+    });
     res.send(filteredResidencies);
+  } catch (error) {
+    console.log(error)
+  }
+
+
+});
+
+export const getAllResidencies_forMap = asyncHandler(async (req, res) => {
+  try {
+    const residencies = await prisma.residency.findMany({
+      orderBy: {
+        createdAt: "desc",
+      },
+      include: {
+        Rating: true,
+        photos: true
+      },
+    });
+    console.log(residencies)
+    res.send(residencies);
+  } catch (error) {
+    console.log(error)
+  }
+});
+
+export const getAllResidencies_withAuthorEmail = asyncHandler(async (req, res) => {
+
+  const { authorEmail } = req.body
+
+  console.log(req.body)
+
+  try {
+    const residencies = await prisma.residency.findMany({
+      // orderBy là sắp xếp
+      //  sắp xếp theo thời gian đăng giảm dần
+      where: { userEmail: authorEmail },
+      select: {
+        id: true,
+        title: true,
+        photos: true,
+        userEmail: true
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    res.send(residencies);
   } catch (error) {
     console.log(error)
   }
@@ -166,9 +210,7 @@ export const getResidency = asyncHandler(async (req, res) => {
 
 export const deleteResidency = asyncHandler(async (req, res) => {
   const { id } = req.params
-  const { emailUser } = req.body
-
-  console.log(req.body)
+  console.log(id)
   try {
 
     // xóa các reservation của house này
@@ -182,20 +224,6 @@ export const deleteResidency = asyncHandler(async (req, res) => {
     const favResidenciesID = await prisma.favResidenciesID.deleteMany({
       where: { ResidencyId: id },
     });
-
-
-
-
-    // await prisma.user.update({
-    //   where: {
-    //     email: emailUser
-    //   },
-    //   data: {
-    //     favResidenciesID: {
-    //       set: user.favResidenciesID.filter((favId) => favId !== id),
-    //     }
-    //   }
-    // })
 
     // xóa ảnh của nhà này
     const { photos } = await prisma.residency.findFirst({

@@ -218,6 +218,7 @@ export const getEarningWithMonthandYear = async (req, res) => {
           gte: startDate,
           lte: endDate,
         },
+        Status: "Success"
       },
     });
 
