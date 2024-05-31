@@ -31,7 +31,7 @@ const Trips = () => {
     }, []);
 
     const onRefresh = () => {
-        fetchData(true);
+        fetchData();
     };
 
     const renderRow = ({ item }) => {

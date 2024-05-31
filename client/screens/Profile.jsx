@@ -94,7 +94,7 @@ const Profile = () => {
                     ))}
                 </View>
             </View>
-            {/* <LogoutLoginBtn isSignedIn={isSignedIn} typeLogin={userData?.typeLogin} /> */}
+            <LogoutLoginBtn isSignedIn={isSignedIn} typeLogin={userData?.typeLogin} />
         </ScrollView>
     )
 }
@@ -111,6 +111,7 @@ const styles = StyleSheet.create({
     },
     headerText: {
         fontSize: 24,
+
         fontFamily: FONTFAMILY.poppins_bold
     },
     labelHeader: {

@@ -4,22 +4,20 @@ import { Link } from '@react-navigation/native'
 import { COLORS, FONTFAMILY, SPACING, categories } from '../../theme/theme'
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
+import { iconBnbs } from '../../utils/iconBnb';
+import useSearchStore from '../../store/searchStore';
 const ExploreHeader = ({ navigation, onCategoryChanged }) => {
 
     const categorizesRef = useRef([])
     const scrollRef = useRef()
     const [activeIndex, setActiveIndex] = useState(0)
+    const { setLocationType } = useSearchStore(state => state)
 
-    const onSelectCategory = (index) => {
+    const onSelectCategory = (index, nameType) => {
         const selected = categorizesRef.current[index]
         console.log(selected)
         setActiveIndex(index)
-        selected?.measure((x, y, width, height, pageX, pageY) => {
-            console.log(pageX, pageY, x, y, width, height,);
-            scrollRef.current?.scrollTo({ x: pageX - 16, y: 0, animated: true })
-        })
-        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
-        onCategoryChanged(categories[index].name)
+        setLocationType(nameType)
     }
 
     return (
@@ -44,20 +42,17 @@ const ExploreHeader = ({ navigation, onCategoryChanged }) => {
                 <ScrollView ref={scrollRef} horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{
                     alignItems: "center",
                     gap: 30,
-                    paddingHorizontal: 12
+                    paddingHorizontal: 12,
+                    paddingTop: 25
                 }}>
-                    {categories.map((item, index) => (
+                    {iconBnbs.map((item, index) => (
                         <TouchableOpacity
-                            onPress={() => onSelectCategory(index)}
+                            onPress={() => onSelectCategory(index, item.name)}
                             key={index}
                             ref={(el) => (categorizesRef.current[index] = el)}
                             style={[activeIndex === index ? styles.categoriesBtnActive : styles.categoriesBtn]}
                         >
-                            <MaterialIcons
-                                name={item.icon}
-                                size={24}
-                                color={activeIndex === index ? COLORS.Black : COLORS.WhiteGrey}
-                            />
+                            {item.icon}
                             <Text style={[activeIndex === index ? styles.categoryTextActive : styles.categoryText]} >
                                 {item.name}
                             </Text>
