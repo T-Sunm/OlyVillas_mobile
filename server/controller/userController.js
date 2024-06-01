@@ -77,6 +77,8 @@ export const login = asyncHandler(async (req, res) => {
     }
   });
 
+  console.log(email, password)
+
   if (!user) {
     return res.status(404).json({ message: "Tên đăng nhập hoặc mật khẩu không đúng." });
   }

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Dimensions, KeyboardAvoidingView, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useCallback, useMemo, useRef, useState } from 'react'
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -6,7 +6,9 @@ import ListingsMap from './ListingsMap';
 import Listings from './Listings';
 import { COLORS, FONTFAMILY } from '../theme/theme';
 import { Ionicons } from '@expo/vector-icons';
-const ListingBottomSheet = ({ listing, category }) => {
+
+
+const ListingBottomSheet = ({ category, onHandleRefresh }) => {
     const bottomSheetRef = useRef(null)
     // const [refresh, setRefresh] = useState(0)
     const handleSheetChanges = useCallback((index) => {
@@ -17,7 +19,6 @@ const ListingBottomSheet = ({ listing, category }) => {
         bottomSheetRef.current?.collapse()
     }
     return (
-
         <BottomSheet
             ref={bottomSheetRef}
             snapPoints={snapPoints}
@@ -28,7 +29,7 @@ const ListingBottomSheet = ({ listing, category }) => {
             style={styles.sheetContainer}
         >
 
-            <Listings items={listing} />
+            <Listings onHandleRefresh={onHandleRefresh} />
             <View style={styles.absoluteBtn}>
                 <TouchableOpacity onPress={showMap} style={styles.btn}>
                     <Text style={{ color: COLORS.White, fontFamily: FONTFAMILY.poppins_regular }} >Map</Text>
@@ -36,7 +37,6 @@ const ListingBottomSheet = ({ listing, category }) => {
                 </TouchableOpacity>
             </View>
         </BottomSheet>
-
     )
 }
 

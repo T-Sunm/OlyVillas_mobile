@@ -4,6 +4,7 @@ import { COLORS, FONTFAMILY, FONTSIZE } from '../../theme/theme'
 import { MaterialIcons } from '@expo/vector-icons'
 import { differenceInDays, formatDateRange } from '../../utils/getDate'
 import { useNavigation } from '@react-navigation/native'
+import Ripple from '../Animation/Ripple'
 
 const CardReservation = ({ item }) => {
     const navigation = useNavigation()
@@ -11,8 +12,13 @@ const CardReservation = ({ item }) => {
     const dateRangeText = formatDateRange(item?.startDate, item?.endDate);
     const flexBasisValue = dateRangeText.length > 17 ? '30%' : '20%';
     const flexBasisValueDescription = dateRangeText.length > 17 ? '70%' : '80%';
+
+    const handleNavigation = () => {
+        navigation.navigate("TripsDetails", { id: item?.id })
+    }
+
     return (
-        <View style={styles.card}>
+        <Ripple style={styles.card} onTap={handleNavigation}>
             <Image
                 source={{ uri: item?.Residency?.photos[0]?.url }}
                 style={styles.image}
@@ -41,7 +47,7 @@ const CardReservation = ({ item }) => {
                 </View>
             </View>
             <View style={styles.divider} />
-            <TouchableOpacity style={styles.detailsButton} onPress={() => navigation.navigate("TripsDetails", { id: item?.id })}>
+            <TouchableOpacity style={styles.detailsButton} >
                 <View style={styles.iconDetails}>
                     <MaterialIcons name="menu-book" size={24} color="white" />
                 </View>
@@ -50,7 +56,8 @@ const CardReservation = ({ item }) => {
                         there, getting inside, and wifi.</Text>
                 </View>
             </TouchableOpacity>
-        </View>
+        </Ripple>
+
     )
 }
 

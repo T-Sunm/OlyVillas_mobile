@@ -3,6 +3,8 @@ import {
   deleteImageRes,
   deleteResidency,
   getAllResidencies,
+  getAllResidencies_forMap,
+  getAllResidencies_withAuthorEmail,
   getResidency,
   updateImage,
   updateResidency,
@@ -12,6 +14,8 @@ const router = express.Router();
 
 router.post("/createResidency", createResidency);
 router.post("/getResidencies", getAllResidencies);
+router.post("/getResidencies_withAuthorEmail", getAllResidencies_withAuthorEmail);
+router.post("/getAllResidencies_forMap", getAllResidencies_forMap);
 router.get("/getResidency/:id", getResidency);
 router.delete("/deleteResidency/:id", deleteResidency);
 router.put("/updateResidency/:id", updateResidency);
