@@ -356,7 +356,7 @@ export const updateImage = asyncHandler(async (req, res) => {
     const upload = await uploadImage(photo);
     const updatedPhotos = [...residency.photos, upload];
 
-    console.log(residency.photos)
+    console.log(residency.photos) //
 
     // Cập nhật residency
     const updatedResidency = await prisma.residency.update({
