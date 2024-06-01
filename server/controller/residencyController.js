@@ -370,7 +370,7 @@ export const updateImage = asyncHandler(async (req, res) => {
       }
     });
 
-    res.status(200).send(residency.photos);
+    res.status(200).send(updatedPhotos);
 
   } catch (error) {
     // Xử lý các loại lỗi khác nhau
