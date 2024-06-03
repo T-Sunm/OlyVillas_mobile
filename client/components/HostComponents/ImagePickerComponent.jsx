@@ -40,7 +40,7 @@ export default function ImagePickerComponent({images,setImages}) {
               style={styles.button}
               onPress={() => removeImage(img.fileName)}
             >
-              <Text style={{ color: "white" }}>x</Text>
+              <Text style={{ color: "white", backgroundColor: 'red' }}>x</Text>
             </Pressable>
             <Image source={{ uri: img.uri }} style={styles.image} />
           </View>

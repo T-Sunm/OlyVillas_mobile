@@ -244,7 +244,9 @@ export const PropertyType = [
     }
 ]
 
-export const ListingType = [
+
+// placeType
+export const ListingType = [ 
     {
         id:1,
         parentId: [1,2,3,4],

@@ -38,10 +38,15 @@ const AddTitle = ({ route }) => {
             numberOfLines={4}
             multiline={true}
             onChangeText={(text) => setTitle(text)}
-            maxLength={32}
+            maxLength={50}
           />
-          <Text style={{fontFamily: FONTFAMILY.poppins_light, fontSize: 11.5}}>
-            <Text style={{fontFamily: FONTFAMILY.poppins_semibold}}>{32 - title.length}</Text> characters available
+          <Text
+            style={{ fontFamily: FONTFAMILY.poppins_light, fontSize: 11.5 }}
+          >
+            <Text style={{ fontFamily: FONTFAMILY.poppins_semibold }}>
+              {50 - title.length}
+            </Text>{" "}
+            characters available
           </Text>
         </View>
       </ScrollView>

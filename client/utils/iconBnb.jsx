@@ -215,3 +215,158 @@ export const ListingType = [
       icon: <SharedRoom width="40" height="40" />
   }
 ]
+
+export const iconBnbsMini = [
+  {
+    parentId: 2,
+    name: "House",
+    icon: <House width="25" height="25"/>
+  },
+  {
+    parentId: 1,
+    name: "Flat/apartment",
+    icon: <Flat width="25" height="25"/>
+  },
+  {
+    parentId: 4,
+    name: "Barn",
+    icon: <Barn width="25" height="25"/>,
+  },
+  {
+    parentId: 4,
+    name: "Boat",
+    icon: <Boat width="25" height="25"/>,
+  },
+  {
+    parentId: 2,
+    name: "Cabin",
+    icon: <Cabin width="25" height="25"/>,
+  },
+  {
+    parentId: 4,
+    name: "Camper/RV",
+    icon: <Campervan width="25" height="25"/>,
+  },
+  {
+    parentId: 4,
+    name: "Casa particular",
+    icon: <CasaParticular width="25" height="25"/>,
+  }
+  ,
+  {
+    parentId: 4,
+    name: "Castle",
+    icon: <Castle width="25" height="25"/>,
+  },
+  {
+    parentId: 4,
+    name: "Cave",
+    icon: <Cave width="25" height="25"/>,
+  },
+  {
+    parentId: 4,
+    name: "Container",
+    icon: <Container width="25" height="25"/>,
+  },
+  {
+    parentId: 4,
+    name: "Cycladic home",
+    icon: <CycladicHome width="25" height="25"/>,
+  },
+  {
+    parentId: 4,
+    name: "Dammuso",
+    icon: <Dammuso width="25" height="25"/>,
+  },
+  {
+    parentId: 4,
+    name: "Dome",
+    icon: <Dome width="25" height="25"/>,
+  },
+  {
+    parentId: 4,
+    name: "Earth home",
+    icon: <EarthHome width="25" height="25"/>,
+  },
+  {
+    parentId: 4,
+    name: "Farm",
+    icon: <Farm width="25" height="25"/>,
+  },
+  {
+    parentId: 3,
+    name: "Guesthouse",
+    icon: <GuestHouse width="25" height="25"/>,
+  },
+  {
+    parentId: 5,
+    name: "Hotel",
+    icon: <Hotel width="25" height="25"/>,
+  },
+  {
+    parentId: 2,
+    name: "Houseboat",
+    icon: <Houseboat width="25" height="25"/>,
+  },
+  {
+    parentId: 4,
+    name: "Kezhan",
+    icon: <Kezhan width="25" height="25"/>,
+  },
+  {
+    parentId: 4,
+    name: "Minsu",
+    icon: <Minsu width="25" height="25"/>,
+  },
+  {
+    parentId: 4,
+    name: "Riad",
+    icon: <Riad width="25" height="25"/>,
+  },
+  {
+    parentId: 4,
+    name: "Ryokan",
+    icon: <Ryokan width="25" height="25"/>,
+  },
+  {
+    parentId: 4,
+    name: "Shepherd's hut",
+    icon: <ShepherdHut width="25" height="25"/>,
+  },
+  {
+    parentId: 4,
+    name: "Tent",
+    icon: <Tent width="25" height="25"/>,
+  },
+  {
+    parentId: 2,
+    name: "Tiny homes",
+    icon: <TinyHome width="25" height="25"/>,
+  },
+  {
+    parentId: 4,
+    name: "Tower",
+    icon: <Tower width="25" height="25"/>
+  },
+  {
+    parentId: 4,
+    name: "Treehouse",
+    icon: <TreeHouse width="25" height="25"/>
+  },
+  {
+    parentId: 4,
+    name: "Trullo",
+    icon: <Trullo width="25" height="25"/>
+  },
+  {
+    parentId: 4,
+    name: "Windmill",
+    icon: <Windmill width="25" height="25"/>
+  },
+  {
+    parentId: 4,
+    name: "Yurt",
+    icon: <Yurt width="25" height="25"/>
+  }
+
+];

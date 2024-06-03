@@ -189,6 +189,7 @@ export const getAllResidencies_withAuthorEmail = asyncHandler(async (req, res) =
 
 export const getResidency = asyncHandler(async (req, res) => {
   const { id } = req.params;
+  console.log(id)
   try {
     const residency = await prisma.residency.findUnique({
       where: { id: id },
@@ -356,7 +357,7 @@ export const updateImage = asyncHandler(async (req, res) => {
     const upload = await uploadImage(photo);
     const updatedPhotos = [...residency.photos, upload];
 
-    console.log(residency.photos)
+    console.log(residency.photos) //
 
     // Cập nhật residency
     const updatedResidency = await prisma.residency.update({
@@ -370,7 +371,7 @@ export const updateImage = asyncHandler(async (req, res) => {
       }
     });
 
-    res.status(200).send(updatedResidency);
+    res.status(200).send(updatedPhotos);
 
   } catch (error) {
     // Xử lý các loại lỗi khác nhau
@@ -387,7 +388,7 @@ export const updateResidency = asyncHandler(async (req, res) => {
   const { id } = req.params
   const data = req.body
 
-  console.log(data)
+  console.log("updateData", data)
 
   try {
     const residency = await prisma.residency.update({
