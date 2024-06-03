@@ -387,7 +387,7 @@ export const updateResidency = asyncHandler(async (req, res) => {
   const { id } = req.params
   const data = req.body
 
-  console.log(data)
+  console.log("updateData", data)
 
   try {
     const residency = await prisma.residency.update({
