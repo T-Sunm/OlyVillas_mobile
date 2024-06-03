@@ -4,7 +4,7 @@ import { Link } from '@react-navigation/native'
 import { COLORS, FONTFAMILY, SPACING, categories } from '../../theme/theme'
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
-import { iconBnbs } from '../../utils/iconBnb';
+import { iconBnbsMini } from '../../utils/iconBnb';
 import useSearchStore from '../../store/searchStore';
 const ExploreHeader = ({ navigation, onCategoryChanged }) => {
 
@@ -45,7 +45,7 @@ const ExploreHeader = ({ navigation, onCategoryChanged }) => {
                     paddingHorizontal: 12,
                     paddingTop: 25
                 }}>
-                    {iconBnbs.map((item, index) => (
+                    {iconBnbsMini.map((item, index) => (
                         <TouchableOpacity
                             onPress={() => onSelectCategory(index, item.name)}
                             key={index}
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: "center",
         justifyContent: "center",
-        paddingBottom: 8
+        paddingBottom: 8,
     },
     categoriesBtnActive: {
         flex: 1,

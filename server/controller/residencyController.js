@@ -189,6 +189,7 @@ export const getAllResidencies_withAuthorEmail = asyncHandler(async (req, res) =
 
 export const getResidency = asyncHandler(async (req, res) => {
   const { id } = req.params;
+  console.log(id)
   try {
     const residency = await prisma.residency.findUnique({
       where: { id: id },

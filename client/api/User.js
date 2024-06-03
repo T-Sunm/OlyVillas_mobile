@@ -1,8 +1,8 @@
 import axios from 'axios'
 import { API_HOST } from '../environment'
 export const api = axios.create({
-    // baseURL: `https://olyvillas-mobile.onrender.com/api/`
-    baseURL: `${API_HOST}:8080/api/`
+    baseURL: `${API_HOST}/api/`
+    // baseURL: `${API_HOST}:8080/api/` 
 })
 
 export const verifyEmail = async (email) => {

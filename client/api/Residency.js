@@ -1,8 +1,8 @@
 import axios from 'axios'
 import { API_HOST } from '../environment'
 export const api = axios.create({
-    // baseURL: `https://olyvillas-mobile.onrender.com/api/`
-    baseURL: `${API_HOST}:8080/api/`
+    baseURL: `${API_HOST}/api/`
+    // baseURL: `${API_HOST}:8080/api/`
 })
 
 export const getAllProperties = async (params = {}, page = 1) => {
@@ -90,6 +90,45 @@ export const DeleteResidency = async (ResidencyId) => {
             throw result.data
         }
         return result.data
+    } catch (error) {
+        throw error
+    }
+}
+
+export const deleteImageResy = async(ResidencyId,idImage)=>{
+    try {
+        const body = {idImage}
+        const result = await api.delete(`/updateResidency/${ResidencyId}/deleteImages`,{ data: body })
+        if (result.status === 401 || result.status=== 500){
+            throw result.data
+        }
+        return result.data
+    } catch (error) {
+        throw error
+    }
+}
+
+export const updateImageResy = async(ResidencyId,photo)=>{
+    try {
+        const body = {photo}
+        const result = await api.put(`/updateResidency/${ResidencyId}/createImages`, {photo: photo})
+        if (result.status === 404 || result.status=== 500){
+            throw result.data
+        }
+        return result.data
+    } catch (error) {
+        console.log(error.response)
+        throw error
+    }
+}
+
+export const updateResidency = async (ResidencyId, data) => {
+    try {
+        const response = await api.put(`user/updateResidency/${ResidencyId}`, { data })
+        if (response.status === 400 || response.status === 500) {
+            throw response.data
+        }
+        return response.data
     } catch (error) {
         throw error
     }

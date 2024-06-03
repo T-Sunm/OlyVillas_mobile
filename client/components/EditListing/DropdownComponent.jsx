@@ -5,8 +5,7 @@ import { countries } from "../../utils/data/countries";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { FONTFAMILY } from "../../theme/theme";
 
-const DropdownComponent = ({value,setValue,setData, data}) => {
-
+const DropdownComponent = ({setData, data}) => {
   const countriesWithLabels = countries.map((country) => ({
     label: country,
     value: country,
@@ -23,12 +22,11 @@ const DropdownComponent = ({value,setValue,setData, data}) => {
         placeholder="Select country"
         labelField="label"
         valueField="value"
-        value={value}
+        value={data.country}
         onChange={(item) => {
-          setValue(item.value);
           setData({
             ...data,
-            mapData: { ...data.mapData, country: item.value },
+            country: item.value,
           });
         }}
         renderRightIcon={() => {
