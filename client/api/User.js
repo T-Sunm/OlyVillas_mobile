@@ -57,8 +57,9 @@ export const EditUserInfo = async (email, firstName, lastName) => {
 }
 
 export const EditEmail = async (newEmail, oldEmail) => {
+    console.log(newEmail, oldEmail)
     try {
-        const result = await api.post(`user/editEmail`, { newEmail, oldEmail })
+        const result = await api.post(`user/editEmail`, { newEmail: newEmail, oldEmail: oldEmail })
         if (result.status === 401 || result.status === 500) {
             throw result.data
         }

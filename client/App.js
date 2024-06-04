@@ -13,6 +13,9 @@ import { verifyEmail } from './api/User';
 import { getDataInStorage, removeValueStorage } from './utils/data/AsyncStorage';
 import * as React from 'react';
 import { navigationRef, navigate } from './utils/RootNavigation';
+import Toast from 'react-native-toast-message';
+
+
 const tokenCache = {
   async getToken(key) {
     try {
@@ -120,6 +123,7 @@ export default function App() {
           <StatusBar style="auto" />
           <InitialLayout />
         </ClerkProvider>
+        <Toast/>
       </GestureHandlerRootView>
     </NavigationContainer>
 
