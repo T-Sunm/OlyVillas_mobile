@@ -20,16 +20,16 @@ export const header = [
 
 export const optionsProfile = [
     {
-        label: "Personal information", icon: <PersonalInfo width={30} height={30} />,
+        label: "Personal information", icon: <PersonalInfo width={30} height={30} />, navigationName: "PersonalInfo",
     },
     {
-        label: "Login & security", icon: <LoginSecurity width={30} height={30} />,
+        label: "Login & security", icon: <LoginSecurity width={30} height={30} />, navigationName: "LoginAndSecurity",
     },
     {
-        label: "Notifications", icon: <Ionicons name="notifications-outline" size={30} color="black" />,
+        label: "Notifications", icon: <Ionicons name="notifications-outline" size={30} color="black" />,  navigationName: "",
     },
     {
-        label: "Privacy and sharing", icon: <SimpleLineIcons name="lock" size={30} color="black" />,
+        label: "Privacy and sharing", icon: <SimpleLineIcons name="lock" size={30} color="black" />,  navigationName: "",
     }
 ]
 

@@ -38,6 +38,8 @@ import FinishUp from "../screens/HostScreen/FinishUp";
 import Your_Reservation from "../screens/Your_Reservation/Your_Reservation";
 import Chart from "../screens/Chart/Chart";
 import EditListing from "../screens/EditListing/EditListing";
+import PersonalInfo from "../screens/PersonalInfo";
+import LoginAndSecurity from "../screens/LoginAndSecurity";
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
   const navigation = useNavigation();
@@ -546,6 +548,36 @@ const StackNavigator = () => {
       animation: "slide_from_right",
       headerTitle: "Listing Editor ",
       headerTitleAlign: "center",
+      headerTransparent: false,
+     headerLeft: () => (
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Ionicons name="arrow-back-outline" size={24} color="black" />
+        </TouchableOpacity>
+      ),
+      
+    }}
+  />
+   <Stack.Screen
+    name="PersonalInfo"
+    component={PersonalInfo}
+    options={{
+      animation: "slide_from_right",
+      headerTitle: "",
+      headerTransparent: false,
+     headerLeft: () => (
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Ionicons name="arrow-back-outline" size={24} color="black" />
+        </TouchableOpacity>
+      ),
+      
+    }}
+  />
+   <Stack.Screen
+    name="LoginAndSecurity"
+    component={LoginAndSecurity}
+    options={{
+      animation: "slide_from_right",
+      headerTitle: "",
       headerTransparent: false,
      headerLeft: () => (
         <TouchableOpacity onPress={() => navigation.goBack()}>

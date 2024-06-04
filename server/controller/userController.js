@@ -145,6 +145,7 @@ export const editUserInfo = asyncHandler(async (req, res) => {
 
 export const editUserEmail = asyncHandler(async (req, res) => {
   let { newEmail, oldEmail } = req.body;
+  console.log("email",newEmail, oldEmail)
   const existUser = await prisma.user.findUnique({ where: { email: oldEmail } });
   console.log(existUser)
   if (existUser) {
