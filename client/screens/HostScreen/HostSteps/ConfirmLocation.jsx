@@ -22,7 +22,7 @@ const ConfirmLocation = ({ route }) => {
   const [district, setDistrict] = useState(data.mapData.district);
   const [place, setPlace] = useState(data.mapData.place);
   const [postcode, setPostcode] = useState(data.mapData.postcode);
-  const [country, setCountry] = useState(data.mapData.country);
+  const [country, setCountry] = useState(data.mapData.country || "Vietnam");
   React.useEffect(() => {
     console.log(data);
   }, []);

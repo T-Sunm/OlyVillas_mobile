@@ -14,6 +14,7 @@ import * as ImagePicker from "expo-image-picker";
 import axios from "axios";
 import { API_HOST } from "../../environment";
 import { deleteImageResy, updateImageResy } from "../../api/Residency";
+import Toast from "react-native-toast-message";
 
 
 const EditPhotosModal = ({
@@ -26,9 +27,23 @@ const EditPhotosModal = ({
 
   const [isLoading, setIsLoading] = useState(false);
 
+  function showToast(message) {
+    Toast.show({
+      type: "error",
+      text1: "Error",
+      text2: message,
+      position: "bottom"
+    })
+  }
+
   const removeImage = async (ResidencyId, public_id) => {
-    const resp = await axios.delete(`${API_HOST}/api/user/updateResidency/${ResidencyId}/deleteImages`, {data: {idImage: public_id}})
-    setImages(images.filter((img) => img.public_id !== public_id));
+    try {   
+      const resp = await axios.delete(`${API_HOST}/api/user/updateResidency/${ResidencyId}/deleteImages`, {data: {idImage: public_id}})
+      setImages(images.filter((img) => img.public_id !== public_id));
+    } catch (error) {
+      console.log(error.response.data.error)
+      showToast(error.response.data.error);
+    }
   }
 
   const pickImage = async () => {
@@ -153,10 +168,10 @@ const styles = StyleSheet.create({
     backgroundColor: "red",
     justifyContent: "center",
     alignItems: "center",
-    // position: 'absolute',
-    // left: 5,
-    // top: -5,
-    // zIndex: 10,  // Ensure the button is above the image
-    opacity: 0.8,
+    position: 'absolute',
+    left: 5,
+    top: -5,
+    zIndex: 10,  // Ensure the button is above the image
+    // opacity: 0.8,
   },
 });

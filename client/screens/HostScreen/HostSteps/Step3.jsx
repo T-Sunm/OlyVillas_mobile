@@ -12,7 +12,7 @@ const Step3 = ({ route }) => {
     <View style={styles.container}>
       <View style={styles.imgContainer}>
         <Image
-          source={{ uri: "https://s5.ezgif.com/tmp/ezgif-5-a14064c1af.gif" }}
+          source={require("../../../assets/image/step3.gif")}
           style={styles.img}
         />
       </View>

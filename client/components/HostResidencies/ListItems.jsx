@@ -1,16 +1,18 @@
-import { Dimensions, Image, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native'
+import { Dimensions, Image, Pressable, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native'
 import React from 'react'
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring, withTiming } from 'react-native-reanimated';
 import { FontAwesome5 } from '@expo/vector-icons';
 import Ripple from '../Animation/Ripple';
 import { DeleteResidency } from '../../api/Residency';
+import { useNavigation } from '@react-navigation/native';
 
 const { width: ScreenWidth } = Dimensions.get('window')
 const LIST_ITEM_HEIGHT = 70;
 const TRANSLATE_X_THRESHOLD = -ScreenWidth * 0.3;
 
-const ListItems = ({ listing: items, simultaneousHandlers }) => {
+const ListItems = ({ listing: items, simultaneousHandlers, navigate }) => {
+    const navigation = useNavigation()
 
     const translateX = useSharedValue(0)
     const panGesture = Gesture.Pan()
@@ -64,7 +66,9 @@ const ListItems = ({ listing: items, simultaneousHandlers }) => {
             </TouchableWithoutFeedback>
 
 
+                <Pressable onPress={()=> navigation.navigate("EditListing", {id: navigate.id})}>
             <GestureDetector gesture={panGesture} >
+
                 <Animated.View style={[styles.listing, rStyle]}>
                     <Ripple style={styles.ripple}  >
                         <Text numberOfLines={1} ellipsizeMode='tail' style={styles.listingTitle}>{items?.title}</Text>
@@ -73,6 +77,7 @@ const ListItems = ({ listing: items, simultaneousHandlers }) => {
                 </Animated.View>
 
             </GestureDetector>
+                </Pressable>
 
 
         </View>

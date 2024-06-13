@@ -1,11 +1,36 @@
-import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React, { useMemo, useRef, useState } from 'react'
+import { Alert, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View, Platform, Keyboard } from 'react-native'
+import React, { useMemo, useRef, useState, useEffect } from 'react'
 import { AntDesign } from '@expo/vector-icons';
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import StarRating from '../Star/StarRating';
 import { COLORS, FONTFAMILY, defaultStyles } from '../../theme/theme';
 import StarReservation from '../Star/StarReservation';
 const BottomSheetRating = ({ onRating, rating, comment }) => {
+
+    const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+
+ useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      () => {
+        setKeyboardVisible(true); // or some other action
+        console.log('keyboard show')
+    }
+);
+const keyboardDidHideListener = Keyboard.addListener(
+    'keyboardDidHide',
+    () => {
+        setKeyboardVisible(false); // or some other action
+        console.log('keyboard unshow')
+      }
+    );
+
+    return () => {
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
+  }, []);
+
     const snapPoints = useMemo(() => ['10%', '45%'], [])
     const bottomSheetRef = useRef(null)
 
@@ -46,10 +71,14 @@ const BottomSheetRating = ({ onRating, rating, comment }) => {
     };
 
     return (
+        
         <BottomSheet
             ref={bottomSheetRef}
             snapPoints={snapPoints}
-        >
+            >
+        {/* <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        > */}
             {renderHeader()}
             <View style={{ flex: 1, padding: 20, paddingBottom: 70 }}>
                 {rating === undefined ? (
@@ -75,7 +104,8 @@ const BottomSheetRating = ({ onRating, rating, comment }) => {
                 )}
 
             </View>
-            {rating === undefined && (
+            {/* </KeyboardAvoidingView> */}
+            {rating === undefined && isKeyboardVisible == false && (
                 <View style={defaultStyles.footer}>
                     <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
                         <TouchableOpacity style={styles.footerText} onPress={Cancel}>
