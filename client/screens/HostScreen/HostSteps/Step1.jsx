@@ -9,7 +9,7 @@ const Step1 = () => {
   return (
     <View style={styles.container}>
       <View style={styles.imgContainer}>
-        <Image source={{uri: 'https://s1.ezgif.com/tmp/ezgif-1-083d419ed0.gif'}} style={styles.img}/>
+        <Image source={require('../../../assets/image/step1.gif')} style={styles.img}/>
       </View>
       <View>
         <Text style={styles.stepText}>Step 1</Text>

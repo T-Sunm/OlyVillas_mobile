@@ -22,7 +22,7 @@ const DropdownComponent = ({setData, data}) => {
         placeholder="Select country"
         labelField="label"
         valueField="value"
-        value={data.country}
+        value={data.country || "Vietnam"}
         onChange={(item) => {
           setData({
             ...data,

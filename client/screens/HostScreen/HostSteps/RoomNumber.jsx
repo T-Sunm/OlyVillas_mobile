@@ -9,10 +9,10 @@ const RoomNumber = ({ route }) => {
     console.log(data);
   }, []);
 
-  const [bedrooms, setBedrooms] = useState(0);
-  const [beds, setBeds] = useState(0);
-  const [bathrooms, setBathrooms] = useState(0);
-  const [guests, setGuests] = useState(0);
+  const [bedrooms, setBedrooms] = useState(1);
+  const [beds, setBeds] = useState(1);
+  const [bathrooms, setBathrooms] = useState(1);
+  const [guests, setGuests] = useState(4);
 
   return (
     <View style={styles.container}>
@@ -43,8 +43,8 @@ const RoomNumber = ({ route }) => {
           </Text>
           <View style={styles.buttonsContainer}>
             <Pressable
-              style={[styles.button, { opacity: bedrooms === 0 ? 0.3 : 1 }]}
-              disabled={bedrooms === 0 ? true : false}
+              style={[styles.button, { opacity: bedrooms === 1 ? 0.3 : 1 }]}
+              disabled={bedrooms === 1 ? true : false}
               onPress={() => setBedrooms((bedrooms) => bedrooms - 1)}
             >
               <Text>-</Text>
@@ -62,8 +62,8 @@ const RoomNumber = ({ route }) => {
           <Text style={{ fontFamily: FONTFAMILY.poppins_regular }}>Beds</Text>
           <View style={styles.buttonsContainer}>
             <Pressable
-              style={[styles.button, { opacity: beds === 0 ? 0.4 : 1 }]}
-              disabled={beds === 0 ? true : false}
+              style={[styles.button, { opacity: beds === 1 ? 0.4 : 1 }]}
+              disabled={beds === 1 ? true : false}
               onPress={() => setBeds((beds) => beds - 1)}
             >
               <Text>-</Text>
@@ -83,8 +83,8 @@ const RoomNumber = ({ route }) => {
           </Text>
           <View style={styles.buttonsContainer}>
             <Pressable
-              style={[styles.button, { opacity: bathrooms === 0 ? 0.4 : 1 }]}
-              disabled={bathrooms === 0 ? true : false}
+              style={[styles.button, { opacity: bathrooms === 1 ? 0.4 : 1 }]}
+              disabled={bathrooms === 1 ? true : false}
               onPress={() => setBathrooms((bathrooms) => bathrooms - 1)}
             >
               <Text>-</Text>
@@ -102,8 +102,8 @@ const RoomNumber = ({ route }) => {
           <Text style={{ fontFamily: FONTFAMILY.poppins_regular }}>Guests</Text>
           <View style={styles.buttonsContainer}>
             <Pressable
-              style={[styles.button, { opacity: guests === 0 ? 0.4 : 1 }]}
-              disabled={guests === 0 ? true : false}
+              style={[styles.button, { opacity: guests === 1 ? 0.4 : 1 }]}
+              disabled={guests === 1 ? true : false}
               onPress={() => setGuests((guests) => guests - 1)}
             >
               <Text>-</Text>

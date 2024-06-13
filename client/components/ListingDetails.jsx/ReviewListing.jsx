@@ -24,6 +24,7 @@ const ReviewListing = ({ ResidencyId }) => {
                 const data = await getRatingByResidency(ResidencyId)
                 // mặc định ban đầu sẽ tải hết dữ liệu
                 setReviews(data)
+                console.log(data)
                 setTimeout(() => {
                     setLoading(false)
                 }, 100)
@@ -51,9 +52,7 @@ const ReviewListing = ({ ResidencyId }) => {
             </View>
             <View style={{ flexBasis: 140 }}>
                 <Text>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    {item?.comment}
                 </Text>
             </View>
             <View style={{ flexDirection: "row", alignItems: "center", gap: 5 }}>

@@ -15,6 +15,9 @@ import * as React from 'react';
 import { navigationRef, navigate } from './utils/RootNavigation';
 import Toast from 'react-native-toast-message';
 
+// const toastCfg = {
+//   error: (props) => 
+// }
 
 const tokenCache = {
   async getToken(key) {

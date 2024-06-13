@@ -40,7 +40,7 @@ export default function ImagePickerComponent({images,setImages}) {
               style={styles.button}
               onPress={() => removeImage(img.fileName)}
             >
-              <Text style={{ color: "white", backgroundColor: 'red' }}>x</Text>
+              <Text style={{ color: "white"}}>x</Text>
             </Pressable>
             <Image source={{ uri: img.uri }} style={styles.image} />
           </View>
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
     borderRadius: 10,
-    backgroundColor: "grey",
+    backgroundColor: "red",
     justifyContent: "center",
     alignItems: "center",
     // position: 'absolute',
