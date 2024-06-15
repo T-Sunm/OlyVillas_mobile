@@ -1,4 +1,4 @@
 export const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY
 export const MAP_KEY = process.env.MAP_KEY
 // export const API_HOST = process.env.API_HOST
-export const API_HOST = "http://192.168.1.10:8080" //thay ip
+export const API_HOST = "http://192.168.1.14:8080" //thay ip
