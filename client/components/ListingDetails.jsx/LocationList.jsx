@@ -17,8 +17,11 @@ const LocationList = ({ mapLocation, mapData }) => {
 
     return (
         <View style={[defaultStyles.container, { marginVertical: 50 }]}>
-            <Text style={{ fontSize: 25, fontFamily: FONTFAMILY.poppins_semibold, marginBottom: 20 }}>
+            <Text style={{ fontSize: 25, fontFamily: FONTFAMILY.poppins_semibold, marginBottom: 0 }}>
                 Where you'll will be
+            </Text>
+            <Text style={{ fontSize: 15, fontFamily: FONTFAMILY.poppins_regular, marginBottom: 20 }}>
+                {mapData?.street_address}, {mapData?.district}, {mapData?.place}
             </Text>
             <MapView
                 ref={mapRef}
@@ -36,7 +39,6 @@ const LocationList = ({ mapLocation, mapData }) => {
 
                         </View>
                     </View>
-
                 </Marker>
             </MapView>
         </View>
