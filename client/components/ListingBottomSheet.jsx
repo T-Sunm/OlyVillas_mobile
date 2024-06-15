@@ -28,7 +28,6 @@ const ListingBottomSheet = ({ category, onHandleRefresh }) => {
             handleIndicatorStyle={{ backgroundColor: COLORS.Grey }}
             style={styles.sheetContainer}
         >
-
             <Listings onHandleRefresh={onHandleRefresh} />
             <View style={styles.absoluteBtn}>
                 <TouchableOpacity onPress={showMap} style={styles.btn}>

@@ -52,7 +52,7 @@ const ListingsMap = ({ items }) => {
     };
 
     const onMarkerSelected = (item) => {
-        navigation.navigate('listingdetails', { listing: item })
+        navigation.navigate('listingdetails', { id: item?.id })
     };
 
     return (
