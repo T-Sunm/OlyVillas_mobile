@@ -48,8 +48,10 @@ const Profile = () => {
                 <Text style={styles.headerText}>Profile</Text>
                 <Ionicons name='notifications-outline' size={36} />
             </View>
-            {isSignedIn && (
+            {isSignedIn ? (
                 <CardProfile userData={userData} user={user} onCaptureImage={onCaptureImage} onSaveUser={onSaveUser} setEdit={setEdit} edit={edit} />
+            ) : (
+                <CardProfile/>
             )}
             <DropdownProfile options={optionsProfile} header={header[0]} />
 

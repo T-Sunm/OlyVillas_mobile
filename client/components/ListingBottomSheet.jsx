@@ -21,6 +21,7 @@ const ListingBottomSheet = ({ category, onHandleRefresh }) => {
     return (
         <BottomSheet
             ref={bottomSheetRef}
+            keyboardBlurBehavior='none'
             snapPoints={snapPoints}
             // Đây là index của snapPoint ban đầu mà bottom sheet sẽ hiển thị khi component được mount
             index={0}
@@ -67,5 +68,6 @@ const styles = StyleSheet.create({
             width: 1,
             height: 1,
         },
+        zIndex: 999
     }
 })

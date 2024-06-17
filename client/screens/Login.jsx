@@ -179,6 +179,11 @@ const Login = () => {
                 onPress={handleLoginByNormal} disabled={emailError !== '' || passwordError !== ''}>
                 <Text style={defaultStyles.btnText}>Continue</Text>
             </TouchableOpacity>
+                <View style={{width: '100%', display: 'flex', justifyContent: 'center', marginTop: 20, marginBottom: -20}}>
+                    <TouchableOpacity onPress={() => navigation.navigate('register')}>
+                        <Text style={{color: COLORS.primary, fontFamily: FONTFAMILY.poppins_medium, textAlign: 'center'}}>Create an account</Text>
+                    </TouchableOpacity>
+                </View>
             <View style={styles.separatorView}>
                 <View style={{
                     flex: 1,

@@ -55,14 +55,14 @@ const TabNavigators = () => {
                     tabBarIcon: ({ color, size }) => <FontAwesome6 name="airbnb" size={size} color={color} />
                 }}
             />
-            <Tab.Screen
+            {/* <Tab.Screen
                 name='inbox'
                 component={Inbox}
                 options={{
                     tabBarLabel: 'Inbox',
                     tabBarIcon: ({ color, size }) => <FontAwesome6 name="message" size={size} color={color} />
                 }}
-            />
+            /> */}
             <Tab.Screen
                 name='profile'
                 component={Profile}
