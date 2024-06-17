@@ -115,7 +115,7 @@ export default function App() {
   });
 
   if (!fontsLoaded && !fontError) {
-    console.log("hihi")
+    console.log("lõi font")
     return null;
   }
 
@@ -126,7 +126,7 @@ export default function App() {
           <StatusBar style="auto" />
           <InitialLayout />
         </ClerkProvider>
-        <Toast/>
+        <Toast />
       </GestureHandlerRootView>
     </NavigationContainer>
 

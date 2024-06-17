@@ -1,4 +1,4 @@
-import { Dimensions, Image, Share, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Dimensions, FlatList, Image, Share, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { COLORS, FONTFAMILY, SPACING, defaultStyles } from '../../theme/theme';
 import Animated, { SlideInDown, interpolate, useAnimatedStyle, useScrollViewOffset } from 'react-native-reanimated';
@@ -92,7 +92,14 @@ const ListingDetails = ({ route }) => {
     return (
         <View style={styles.container}>
             <Animated.ScrollView ref={scrollRef} contentContainerStyle={{ paddingBottom: 100 }} scrollEventThrottle={16}>
-                <Animated.Image source={{ uri: listing?.photos[0]?.url }} style={[styles.image, imageAnimatedStyle]} />
+                <FlatList
+                    data={listing?.photos}
+                    renderItem={({ item }) => (
+                        <Animated.Image source={{ uri: item?.url }} style={[styles.image, imageAnimatedStyle]} />
+                    )}
+                    keyExtractor={item => item?.public_id} // Giả sử mỗi photo có trường id
+                    horizontal={true} // Nếu muốn danh sách cuộn ngang
+                />
                 <View style={styles.infoContainer}>
                     <Text style={styles.name}>{listing?.title}</Text>
                     <Text style={styles?.location}>
@@ -114,7 +121,7 @@ const ListingDetails = ({ route }) => {
                         <Image source={{ uri: listing?.photos[listing?.photos.length - 1].url }} style={styles.host} />
 
                         <View>
-                            <Text style={{ fontWeight: '500', fontSize: 16 }}>Hosted by {listing?.userEmail}</Text>
+                            <Text style={{ fontWeight: '500', fontSize: 16 }}>Hosted by {listing?.owner?.firstName} {listing?.owner?.lastName}</Text>
                             <Text>Host since {getDate(listing?.createdAt)}</Text>
                         </View>
                     </View>

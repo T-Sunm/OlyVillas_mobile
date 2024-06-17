@@ -64,7 +64,6 @@ export const getAllResidencies = asyncHandler(async (req, res) => {
 
 
   const { page = 1 } = req.query
-  console.log(locationType)
 
   const limit = 10
   // Tính toán số lượng bản ghi bỏ qua
